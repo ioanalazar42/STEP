@@ -30,8 +30,24 @@
   max-width: 200px;
 }
 
-.image-gallery img:hover {
-  border: thick solid black;
+.imageBox:hover .edited {
+    display: block;
+}
+
+.imgContainer {
+  position: relative;
+  float: left;
+}
+
+.imgContainer .edited {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: none;
+}
+
+.imgContainer:hover .edited {
+  display: block;
 }
 
 
