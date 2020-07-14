@@ -4,6 +4,18 @@
   width: 650px;
 }
 
-#greeting-container {
+#fact-container {
   margin-top: 20px;
 }
+
+.image {
+    width: 300px;
+    height: auto;
+}
+
+.image {
+    width: 200px;
+    height: auto;
+}
+
+

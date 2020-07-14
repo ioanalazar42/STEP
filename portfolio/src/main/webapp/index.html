@@ -2,17 +2,36 @@
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>My Portfolio</title>
+    <title>Home</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js"></script>
   </head>
   <body>
+    <div id="nav-bar">
+      <a href="index.html">Home</a>
+      <br>
+      <a href="gallery.html">My life in pictures</a>
+      <br>
+      <a href="photography.html">Passion for photo editing</a>
+      <br>
+      <a href="cat.html">I heard you like cats ;)</a> 
+    </div>
     <div id="content">
-      <h1>My Portfolio</h1>
+      <h1>Ioana Lazar</h1>
       <p>This is my portfolio.</p>
+      <p>Hi! I'm Ioana, fellow STEP Intern here at Google. I study AI at 
+          <a href="https://www.manchester.ac.uk/">UoM</a>. When I'm not
+          working or complaining about mancunian weather, I'm either 
+          binge watching a series, playing video games or trying to 
+          convince my cat to hang out with me. Meme enthusiast, 
+          addicted to Jaffa Cakes, #snowboarding, #photography. 
+          My close friends call me Jo and it makes me feel cool.
+      </p>
+      <h3>People reading my intro:</h3>
+      <img class="image" src="images/meme.jpg" alt="meme">
       <p>Click here to get a random message:</p>
-      <button onclick="addRandomGreeting()">Hello</button>
-      <div id="greeting-container"></div>
+      <button onclick="addRandomFact()">Fact</button>
+      <div id="fact-container"></div>
     </div>
   </body>
 </html>
