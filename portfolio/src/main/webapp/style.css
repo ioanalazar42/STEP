@@ -18,4 +18,21 @@
     height: auto;
 }
 
+.image-gallery {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.image-gallery img {
+  margin: 10px;
+  max-height: 200px;
+  max-width: 200px;
+}
+
+.image-gallery img:hover {
+  border: thick solid black;
+}
+
+
 
