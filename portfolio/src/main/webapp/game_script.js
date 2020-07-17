@@ -128,9 +128,18 @@ function updateGameArea() {
   gameArea.frameNo += 1;
   if (gameArea.frameNo == 1 || everyInterval(100)) {
     /* x <- width because new obstacle always spans at end of screen */
-    x = gameArea.canvas.width;  
-    y = gameArea.canvas.height - gameArea.canvas.height/2;
-    obstacles.push(new component(50, gameArea.canvas.height/2, "green", x, y));
+    x = gameArea.canvas.width;
+
+    minHeight = gameArea.canvas.height/6;
+    maxHeight = gameArea.canvas.height/2;
+    height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+
+    minGap = 80;
+    maxGap = gameArea.canvas.height/3;
+    gap = gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+
+    obstacles.push(new component(50, height, "green", x, 0));
+    obstacles.push(new component(50, x - height - gap, "green", x, height + gap));
   }
   for (i = 0; i < obstacles.length; i += 1) {
     obstacles[i].x += -5;
