@@ -29,6 +29,11 @@ var gameArea = {
   },
   stop : function() {
     clearInterval(this.interval);
+  },
+  updateInstructions : function() {
+      INSTR_UP.update();
+      INSTR_DOWN.update();
+      INSTR_MOUSE.update();
   }
 } // gameArea
 
@@ -43,9 +48,29 @@ var player;
 var obstacles = [];
 var score;
 
+/* multiple intruction boxes becaise
+   canvas does not support multi-line */
+var INSTR_UP;
+var INSTR_DOWN;
+var INSTR_MOUSE;
+
 function startGame() {
   player = new component(30, 30, "red", 10, window.innerHeight/2);
   score = new component("30px", "Consolas", "black", window.innerWidth - 200, 30, "text");
+
+  // create a component for each instruction box
+  INSTR_UP = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 90, "text");
+  INSTR_DOWN = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 65, "text");
+  INSTR_MOUSE = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 40, "text");
+
+  // unicodes for down and up arrows
+  UPArrSymbol = "\u2B06";
+  DOWNArrSymbol = "\u2B07";
+
+  INSTR_UP.text = "w/" + UPArrSymbol + " > up";
+  INSTR_DOWN.text = "s/" + DOWNArrSymbol + " > down";
+  INSTR_MOUSE.text = "m > on/off mouse control";
+
   gameArea.start();
 }
 
@@ -156,6 +181,7 @@ function updateGameArea() {
   }
   score.text = "SCORE: " + gameArea.frameNo;
   score.update();
+  gameArea.updateInstructions();
   player.newSpeed();
   player.newPos();
   player.update();
