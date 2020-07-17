@@ -41,16 +41,19 @@ function everyInterval(givenInterval) {
 
 var player;
 var obstacles = [];
+var score;
 
 function startGame() {
   player = new component(30, 30, "red", 10, window.innerHeight/2);
+  score = new component("30px", "Consolas", "black", window.innerWidth - 200, 30, "text");
   gameArea.start();
 }
 
 /* Construct a component with specifiec width
    height, color and coordinates where it is
    places in the canvas */
-function component(width, height, color, x, y) {
+function component(width, height, color, x, y, type) {
+    this.type = type;
     this.width = width;
     this.height = height;
     this.speedX = 0;
@@ -58,10 +61,16 @@ function component(width, height, color, x, y) {
     this.x = x;
     this.y = y;
     this.mouseControl = false;
-    this.updatePos = function() {
+    this.update = function() {
       ctx = gameArea.context;
-      ctx.fillStyle = color;
-      ctx.fillRect(this.x, this.y, this.width, this.height);
+      if (this.type == "text") {
+        ctx.font = this.width + " " + this.height;
+        ctx.fillStyle = color;
+        ctx.fillText(this.text, this.x, this.y);
+      } else {
+        ctx.fillStyle = color;
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      }
     }
     this.newPos = function() {
         this.x += this.speedX;
@@ -116,7 +125,7 @@ function component(width, height, color, x, y) {
 } // component
 
 function updateGameArea() {
-  var x, y;
+  var xObstacle;
   for (i = 0; i < obstacles.length; i += 1) {
     if (player.crashWith(obstacles[i])) {
       gameArea.stop();
@@ -127,8 +136,8 @@ function updateGameArea() {
   /* count frames and add obstacle every 100th frame */
   gameArea.frameNo += 1;
   if (gameArea.frameNo == 1 || everyInterval(100)) {
-    /* x <- width because new obstacle always spans at end of screen */
-    x = gameArea.canvas.width;
+    /* x coord <- width because new obstacle always spans at end of screen */
+    xObstacle = gameArea.canvas.width;
 
     minHeight = gameArea.canvas.height/6;
     maxHeight = gameArea.canvas.height/2;
@@ -138,16 +147,18 @@ function updateGameArea() {
     maxGap = gameArea.canvas.height/3;
     gap = gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
-    obstacles.push(new component(50, height, "green", x, 0));
-    obstacles.push(new component(50, x - height - gap, "green", x, height + gap));
+    obstacles.push(new component(50, height, "green", xObstacle, 0));
+    obstacles.push(new component(50, xObstacle - height - gap, "green", xObstacle, height + gap));
   }
   for (i = 0; i < obstacles.length; i += 1) {
     obstacles[i].x += -5;
-    obstacles[i].updatePos();
+    obstacles[i].update();
   }
-    player.newSpeed();
-    player.newPos();
-    player.updatePos();
+  score.text = "SCORE: " + gameArea.frameNo;
+  score.update();
+  player.newSpeed();
+  player.newPos();
+  player.update();
 }
 
 /* Returns a string depending on the code of 'key' */
