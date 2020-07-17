@@ -5,6 +5,7 @@ var gameArea = {
     this.canvas.height = window.innerHeight;
     this.context = this.canvas.getContext("2d");
     document.body.insertBefore(this.canvas, document.body.childNodes[0]);
+    this.frameNo = 0;
     this.interval = setInterval(updateGameArea, 20);
     gameArea.mouseControl = false;
     window.addEventListener('keydown', function (e) {
@@ -25,16 +26,25 @@ var gameArea = {
   },
   clear : function() {
       this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+  },
+  stop : function() {
+    clearInterval(this.interval);
   }
 } // gameArea
 
+/* Returns true if the current frame number
+   corresponds with the given interval */
+function everyInterval(givenInterval) {
+  if ((gameArea.frameNo / givenInterval) % 1 == 0) {return true;}
+  return false;
+}
+
 var player;
-var obstacle;
+var obstacles = [];
 
 function startGame() {
-  gameArea.start();
   player = new component(30, 30, "red", 10, window.innerHeight/2);
-  obstacle = new component(10, 200, "green", 300, 120);
+  gameArea.start();
 }
 
 /* Construct a component with specifiec width
@@ -75,19 +85,60 @@ function component(width, height, color, x, y) {
               break;
             case "DOWN":
               this.speedY = 3;
-              console.log("down");
               break;
             default:
               break;
         } // switch
+    },
+    this.crashWith = function(otherObj) {
+      /* Get left, right, top, bottom for this object */
+      var l = this.x;
+      var r = this.x + (this.width);
+      var top = this.y;
+      var bttm = this.y + (this.height);
+
+      /* Get left, right, top, bottom for other object */
+      var otherL = otherObj.x;
+      var otherR = otherObj.x + (otherObj.width);
+      var otherTop = otherObj.y;
+      var otherBttm = otherObj.y + (otherObj.height);
+      var crash = true;
+
+      var crash = true;
+      if ((bttm < otherTop) ||
+          (top > otherBttm) ||
+          (r < otherL)      ||
+          (l > otherR)) {
+      crash = false;
     }
+    return crash;
+  }
 } // component
 
 function updateGameArea() {
+  var x, y;
+  for (i = 0; i < obstacles.length; i += 1) {
+    if (player.crashWith(obstacles[i])) {
+      gameArea.stop();
+      return;
+    } 
+  }
   gameArea.clear();
-  player.newSpeed();
-  player.newPos();
-  player.updatePos();
+  /* count frames and add obstacle every 100th frame */
+  gameArea.frameNo += 1;
+  if (gameArea.frameNo == 1 || everyInterval(100)) {
+    /* x <- width because new obstacle always spans at end of screen */
+    x = gameArea.canvas.width;  
+    y = gameArea.canvas.height - gameArea.canvas.height/2;
+    obstacles.push(new component(50, gameArea.canvas.height/2, "green", x, y));
+  }
+  for (i = 0; i < obstacles.length; i += 1) {
+    obstacles[i].x += -5;
+    obstacles[i].updatePos();
+  }
+    player.newSpeed();
+    player.newPos();
+    player.updatePos();
 }
 
 /* Returns a string depending on the code of 'key' */
