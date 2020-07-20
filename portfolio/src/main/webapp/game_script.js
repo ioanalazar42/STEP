@@ -145,16 +145,53 @@ function component(width, height, color, x, y, type) {
 } // component
 
 function updateGameArea() {
-  var xObstacle;
-  for (i = 0; i < obstacles.length; i += 1) {
-    if (player.crashWith(obstacles[i])) {
-      gameArea.stop();
-      return;
-    } 
+
+  if (crashOccurs()) {
+    gameArea.stop();
+    return;
   }
+
   gameArea.clear();
+
   /* count frames and add obstacle every 100th frame */
   gameArea.frameNo += 1;
+  addObstacle();
+  updateObstacles();
+
+  score.text = "SCORE: " + gameArea.frameNo;
+  score.update();
+
+  gameArea.updateInstructions();
+
+  player.newSpeed();
+  player.newPos();
+  player.update();
+} // updateGameArea
+
+/* Returns a string depending on the code of 'key' */
+function getKey(key) {
+  if (gameArea.key == 38 || gameArea.key == 87) {
+    return keyActions.UP;
+  } else if (gameArea.key == 40 || gameArea.key == 83) {
+    return keyActions.DOWN;
+  } else {
+    return -1;
+  }
+} // getKey
+
+/* Checks if player crashes with any of the obstacles */
+function crashOccurs() {
+  for (i = 0; i < obstacles.length; i += 1) {
+    if (player.crashWith(obstacles[i])) {
+      return true;
+    } 
+  }
+  return false;
+} // crashOccurs
+
+function addObstacle() {
+  var xObstacle;
+
   if (gameArea.frameNo == 1 || everyInterval(100)) {
     /* x coord <- width because new obstacle always spans at end of screen */
     xObstacle = gameArea.canvas.width;
@@ -170,25 +207,11 @@ function updateGameArea() {
     obstacles.push(new component(50, height, "green", xObstacle, 0));
     obstacles.push(new component(50, xObstacle - height - gap, "green", xObstacle, height + gap));
   }
+} // addObstacle
+
+function updateObstacles() {
   for (i = 0; i < obstacles.length; i += 1) {
     obstacles[i].x += -5;
     obstacles[i].update();
   }
-  score.text = "SCORE: " + gameArea.frameNo;
-  score.update();
-  gameArea.updateInstructions();
-  player.newSpeed();
-  player.newPos();
-  player.update();
-}
-
-/* Returns a string depending on the code of 'key' */
-function getKey(key) {
-  if (gameArea.key == 38 || gameArea.key == 87) {
-    return keyActions.UP;
-  } else if (gameArea.key == 40 || gameArea.key == 83) {
-    return keyActions.DOWN;
-  } else {
-    return -1;
-  }
-}
+} // updateObstacles
