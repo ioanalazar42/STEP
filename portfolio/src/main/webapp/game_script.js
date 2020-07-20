@@ -39,8 +39,7 @@ var gameArea = {
 /* Returns true if the current frame number
    corresponds with the given interval */
 function everyInterval(givenInterval) {
-  if ((gameArea.frameNo / givenInterval) % 1 == 0) {return true;}
-  return false;
+  return gameArea.frameNo % givenInterval == 0;
 }
 
 var player;
