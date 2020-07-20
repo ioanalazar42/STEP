@@ -12,9 +12,8 @@ var gameArea = {
       gameArea.key = e.keyCode;
     })
     window.addEventListener('keyup', function (e) {
-      if (gameArea.key == 77) {
-        /* if the key that was just pressed was "m"
-           activate mouse controls */ 
+      const keycode_M = 77;
+      if (gameArea.key == keycode_M) {
           gameArea.mouseControl = !gameArea.mouseControl;
       }
       gameArea.key = false;
