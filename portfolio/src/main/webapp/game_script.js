@@ -30,9 +30,9 @@ var gameArea = {
     clearInterval(this.interval);
   },
   updateInstructions : function() {
-      INSTR_UP.update();
-      INSTR_DOWN.update();
-      INSTR_MOUSE.update();
+      InstrUp.update();
+      InstrDown.update();
+      InstrMouse.update();
   }
 } // gameArea
 
@@ -48,26 +48,26 @@ var score;
 
 /* multiple intruction boxes becaise
    canvas does not support multi-line */
-var INSTR_UP;
-var INSTR_DOWN;
-var INSTR_MOUSE;
+var InstrUp;
+var InstrDown;
+var InstrMouse;
 
 function startGame() {
   player = new component(30, 30, "red", 10, window.innerHeight/2);
   score = new component("30px", "Consolas", "black", window.innerWidth - 200, 30, "text");
 
   // create a component for each instruction box
-  INSTR_UP = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 90, "text");
-  INSTR_DOWN = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 65, "text");
-  INSTR_MOUSE = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 40, "text");
+  InstrUp = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 90, "text");
+  InstrDown = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 65, "text");
+  InstrMouse = new component("20px", "Consolas", "black", window.innerWidth - 250, window.innerHeight - 40, "text");
 
   // unicodes for down and up arrows
-  UPArrSymbol = "\u2B06";
-  DOWNArrSymbol = "\u2B07";
+  UpArrSymbol = "\u2B06";
+  DownArrSymbol = "\u2B07";
 
-  INSTR_UP.text = "w/" + UPArrSymbol + " > up";
-  INSTR_DOWN.text = "s/" + DOWNArrSymbol + " > down";
-  INSTR_MOUSE.text = "m > on/off mouse control";
+  InstrUp.text = "w/" + UpArrSymbol + " > up";
+  InstrDown.text = "s/" + DownArrSymbol + " > down";
+  InstrMouse.text = "m > on/off mouse control";
 
   gameArea.start();
 }
