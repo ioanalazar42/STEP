@@ -139,16 +139,8 @@ function component(width, height, color, x, y, type) {
       var otherR = otherObj.x + (otherObj.width);
       var otherTop = otherObj.y;
       var otherBttm = otherObj.y + (otherObj.height);
-      var crash = true;
 
-      var crash = true;
-      if ((bttm < otherTop) ||
-          (top > otherBttm) ||
-          (r < otherL)      ||
-          (l > otherR)) {
-      crash = false;
-    }
-    return crash;
+      return bttm >= otherTop && top <= otherBttm && r >= otherL && l <= otherR;
   }
 } // component
 
