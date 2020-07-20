@@ -46,7 +46,7 @@ var player;
 var obstacles = [];
 var score;
 
-/* multiple intruction boxes becaise
+/* multiple instruction boxes because
    canvas does not support multi-line */
 var InstrUp;
 var InstrDown;
@@ -72,9 +72,9 @@ function startGame() {
   gameArea.start();
 }
 
-/* Construct a component with specifiec width
+/* Construct a component with specific width
    height, color and coordinates where it is
-   places in the canvas */
+   placed in the canvas */
 function component(width, height, color, x, y, type) {
     this.type = type;
     this.width = width;
@@ -187,11 +187,11 @@ function updateGameArea() {
 
 /* Returns a string depending on the code of 'key' */
 function getKey(key) {
-    if (gameArea.key == 38 || gameArea.key == 87) {
-      return "UP";
-    } else if (gameArea.key == 40 || gameArea.key == 83) {
-      return "DOWN";
-    } else {
-        return -1;
-    }
+  if (gameArea.key == 38 || gameArea.key == 87) {
+    return "UP";
+  } else if (gameArea.key == 40 || gameArea.key == 83) {
+    return "DOWN";
+  } else {
+    return -1;
+  }
 }
