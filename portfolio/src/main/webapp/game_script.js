@@ -52,6 +52,11 @@ var InstrUp;
 var InstrDown;
 var InstrMouse;
 
+const keyActions = {
+  UP: "up",
+  DOWN: "down"
+}
+
 function startGame() {
   player = new component(30, 30, "red", 10, window.innerHeight/2);
   score = new component("30px", "Consolas", "black", window.innerWidth - 200, 30, "text");
@@ -112,10 +117,10 @@ function component(width, height, color, x, y, type) {
 
         keyPressed = getKey(gameArea.key);
         switch(keyPressed) {
-            case "UP":
+            case keyActions.UP:
               this.speedY = -3;
               break;
-            case "DOWN":
+            case keyActions.DOWN:
               this.speedY = 3;
               break;
             default:
@@ -188,9 +193,9 @@ function updateGameArea() {
 /* Returns a string depending on the code of 'key' */
 function getKey(key) {
   if (gameArea.key == 38 || gameArea.key == 87) {
-    return "UP";
+    return keyActions.UP;
   } else if (gameArea.key == 40 || gameArea.key == 83) {
-    return "DOWN";
+    return keyActions.DOWN;
   } else {
     return -1;
   }
