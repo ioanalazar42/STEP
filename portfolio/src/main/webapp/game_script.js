@@ -101,31 +101,31 @@ function component(width, height, color, x, y, type) {
       }
     }
     this.newPos = function() {
-        this.x += this.speedX;
-        this.y += this.speedY;
+      this.x += this.speedX;
+      this.y += this.speedY;
 
-        if (gameArea.x && gameArea.y && gameArea.mouseControl) {
-            /* if mouse position exists and mouse control 
-               is enabled set player y coord to mouse y coord
-               - player only moves vertically*/
-            this.y = gameArea.y;
-        }
+      if (gameArea.x && gameArea.y && gameArea.mouseControl) {
+        /* if mouse position exists and mouse control 
+           is enabled set player y coord to mouse y coord
+           - player only moves vertically*/
+        this.y = gameArea.y;
+      }
     }
     this.newSpeed = function() {
-        this.speedX = 0;
-        this.speedY = 0;
+      this.speedX = 0;
+      this.speedY = 0;
 
-        keyPressed = getKey(gameArea.key);
-        switch(keyPressed) {
-            case keyActions.UP:
-              this.speedY = -3;
-              break;
-            case keyActions.DOWN:
-              this.speedY = 3;
-              break;
-            default:
-              break;
-        } // switch
+      keyPressed = getKey(gameArea.key);
+      switch(keyPressed) {
+        case keyActions.UP:
+          this.speedY = -3;
+          break;
+        case keyActions.DOWN:
+          this.speedY = 3;
+          break;
+        default:
+          break;
+      } // switch
     },
     this.crashWith = function(otherObj) {
       /* Get left, right, top, bottom for this object */
