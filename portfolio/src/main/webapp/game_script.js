@@ -54,7 +54,8 @@ var instrMouse;
 
 const keyActions = {
   UP: "up",
-  DOWN: "down"
+  DOWN: "down",
+  OTHER: "other"
 }
 
 function startGame() {
@@ -174,14 +175,15 @@ function updateGameArea() {
   player.update();
 } // updateGameArea
 
-/* Returns a string depending on the code of 'key' */
+/* Returns a value of an enum-like structure 
+   depending on the code of 'key' */
 function getKey(key) {
   if (gameArea.key == 38 || gameArea.key == 87) {
     return keyActions.UP;
   } else if (gameArea.key == 40 || gameArea.key == 83) {
     return keyActions.DOWN;
   } else {
-    return -1;
+    return keyActions.OTHER;
   }
 } // getKey
 
