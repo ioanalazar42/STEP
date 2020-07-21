@@ -30,3 +30,23 @@ function addRandomFact() {
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
 }
+
+/* Fetches data from the server and adds them to DOM */
+async function getComments() {
+  const response = await fetch('/data');
+  const comments = await response.json();
+
+  // Build the comments section
+  const commentList = document.getElementById('comments-section');
+  comments.forEach((comment) => {
+    // insert latest comment at the beginning of the comments section
+    commentList.insertBefore(createListElement(comment), commentList.childNodes[0]);
+  });
+}
+
+/* Creates a <li> element containing text */
+function createListElement(text) {
+  const liElement = document.createElement('li');
+  liElement.innerText = text;
+  return liElement;
+}
