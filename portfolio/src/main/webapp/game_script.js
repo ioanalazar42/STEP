@@ -178,9 +178,9 @@ function updateGameArea() {
 /* Returns a value of an enum-like structure 
    depending on the code of 'key' */
 function getKey(key) {
-  if (gameArea.key == 38 || gameArea.key == 87) {
+  if (key == 38 || key == 87) {
     return keyActions.UP;
-  } else if (gameArea.key == 40 || gameArea.key == 83) {
+  } else if (key == 40 || key == 83) {
     return keyActions.DOWN;
   } else {
     return keyActions.OTHER;
