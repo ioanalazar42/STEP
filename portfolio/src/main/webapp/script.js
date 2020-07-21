@@ -36,7 +36,7 @@ async function getComments() {
   const response = await fetch('/data');
   const comments = await response.json();
 
-  const commentsList = document.getElementById('comments-container');
+  const commentsList = document.getElementById('comments-section');
   commentsList.innerHTML = '';
   commentsList.appendChild(createListElement(comments[0]));
   commentsList.appendChild(createListElement(comments[1]));
