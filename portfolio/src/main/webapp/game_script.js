@@ -210,7 +210,7 @@ function addObstacle() {
 
     minGap = 80;
     maxGap = gameArea.canvas.height/3;
-    gap = gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
+    gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
     obstacles.push(new BoxComponent(50, height, "green", xObstacle, 0));
     obstacles.push(new BoxComponent(50, xObstacle - height - gap, "green", xObstacle, height + gap));
