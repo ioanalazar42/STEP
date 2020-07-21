@@ -30,9 +30,9 @@ var gameArea = {
     clearInterval(this.interval);
   },
   updateInstructions : function() {
-      InstrUp.update();
-      InstrDown.update();
-      InstrMouse.update();
+      instrUp.update();
+      instrDown.update();
+      instrMouse.update();
   }
 } // gameArea
 
@@ -48,9 +48,9 @@ var score;
 
 /* multiple instruction boxes because
    canvas does not support multi-line */
-var InstrUp;
-var InstrDown;
-var InstrMouse;
+var instrUp;
+var instrDown;
+var instrMouse;
 
 const keyActions = {
   UP: "up",
@@ -62,17 +62,17 @@ function startGame() {
   score = new TextComponent("SCORE: 0", "30px Consolas", "black", window.innerWidth - 200, 30);
 
   // unicodes for down and up arrows
-  const UpArrSymbol = "\u2B06";
-  const DownArrSymbol = "\u2B07";
+  const upArrSymbol = "\u2B06";
+  const downArrSymbol = "\u2B07";
 
-  const InstrUpTxt = "w/" + UpArrSymbol + " > up";
-  const InstrDownTxt = "s/" + DownArrSymbol + " > down";
-  const InstrMouseTxt = "m > on/off mouse control";
+  const instrUpTxt = "w/" + upArrSymbol + " > up";
+  const instrDownTxt = "s/" + downArrSymbol + " > down";
+  const instrMouseTxt = "m > on/off mouse control";
 
   // create a text component for each instruction box
-  InstrUp = new TextComponent(InstrUpTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 90);
-  InstrDown = new TextComponent(InstrDownTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 65);
-  InstrMouse = new TextComponent(InstrMouseTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 40);
+  instrUp = new TextComponent(instrUpTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 90);
+  instrDown = new TextComponent(instrDownTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 65);
+  instrMouse = new TextComponent(instrMouseTxt, "20px Consolas", "black", window.innerWidth - 250, window.innerHeight - 40);
 
   gameArea.start();
 }
