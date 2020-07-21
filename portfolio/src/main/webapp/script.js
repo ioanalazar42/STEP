@@ -39,7 +39,8 @@ async function getComments() {
   // Build the comments section
   const commentList = document.getElementById('comments-section');
   comments.forEach((comment) => {
-    commentList.appendChild(createListElement(comment));
+    // insert latest comment at the beginning of the comments section
+    commentList.insertBefore(createListElement(comment), commentList.childNodes[0]);
   });
 }
 
