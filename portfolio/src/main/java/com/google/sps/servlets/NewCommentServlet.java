@@ -16,7 +16,7 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String body = request.getParameter("body");
+    String body = request.getParameter("comment-input");
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
