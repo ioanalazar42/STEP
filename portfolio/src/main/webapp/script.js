@@ -33,20 +33,19 @@ function addRandomFact() {
 
 /* Fetches data from the server and adds them to DOM */
 async function getComments() {
-  const response = await fetch('/data');
+  const response = await fetch('/list-comments');
   const comments = await response.json();
 
   // Build the comments section
   const commentList = document.getElementById('comments-section');
   comments.forEach((comment) => {
-    // insert latest comment at the beginning of the comments section
-    commentList.insertBefore(createListElement(comment), commentList.childNodes[0]);
+    commentList.appendChild(createListElement(comment));
   });
 }
 
-/* Creates a <li> element containing text */
-function createListElement(text) {
+/* Creates a <li> element containing the body of the comment */
+function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = text;
+  liElement.innerText = comment.body;
   return liElement;
 }
