@@ -47,7 +47,9 @@ public class ListCommentsServlet extends HttpServlet {
 
     int addedSoFar = 0;
     for (Entity entity : results.asIterable()) {
-      if (addedSoFar == commentLimit) { return; }
+      if (addedSoFar == commentLimit) {
+          return;
+        }
 
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
