@@ -33,6 +33,7 @@ function addRandomFact() {
 
 /* Fetches data from the server and adds them to DOM */
 async function getComments() {
+
   const response = await fetch('/list-comments');
   const comments = await response.json();
 

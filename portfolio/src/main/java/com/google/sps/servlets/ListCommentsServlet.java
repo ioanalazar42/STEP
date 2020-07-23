@@ -32,10 +32,12 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
-  private static int MAX_COMMENTS = 3;
+  // by default show five comments
+  private int commentLimit = 5;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+
     Query query = new Query("Comment").addSort("timestamp", SortDirection.DESCENDING);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
@@ -45,7 +47,7 @@ public class ListCommentsServlet extends HttpServlet {
 
     int addedSoFar = 0;
     for (Entity entity : results.asIterable()) {
-      if (addedSoFar == MAX_COMMENTS) { break; }
+      if (addedSoFar == commentLimit) { break; }
 
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
@@ -61,5 +63,18 @@ public class ListCommentsServlet extends HttpServlet {
 
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
+  }
+  
+  @Override
+  public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    commentLimit = getCommentLimit(request);
+    response.sendRedirect("/index.html");
+  }
+
+  public int getCommentLimit(HttpServletRequest request) {
+    String userInput = request.getParameter("comment-limit");
+
+    int commentLimit = Integer.parseInt(userInput);
+    return commentLimit;
   }
 }

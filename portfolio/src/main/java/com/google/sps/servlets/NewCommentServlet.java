@@ -34,5 +34,5 @@ public class NewCommentServlet extends HttpServlet {
     datastore.put(commentEntity);
 
     response.sendRedirect("/index.html");
-  } 
+  }
 }

@@ -36,10 +36,14 @@
       <div id="fact-container"></div>
 
       <form action="/new-comment" method="POST">
-
         <p>Type in a comment:</p>
         <textarea name="comment-input"></textarea>
+        <input type="submit" value="Submit" />
+      </form>
 
+      <form action="/list-comments" method="POST">
+        <label for="limit">Comments displayed:</label>
+        <input type="number" id="limit" name="comment-limit" min="0" max="15" value="5">
         <input type="submit" value="Submit" />
       </form>
       
