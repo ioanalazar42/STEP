@@ -32,6 +32,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @WebServlet("/list-comments")
 public class ListCommentsServlet extends HttpServlet {
+  private static int MAX_COMMENTS = 3;
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -41,13 +42,19 @@ public class ListCommentsServlet extends HttpServlet {
     PreparedQuery results = datastore.prepare(query);
 
     List<Comment> comments = new ArrayList<>();
+
+    int addedSoFar = 0;
     for (Entity entity : results.asIterable()) {
+      if (addedSoFar == MAX_COMMENTS) { break; }
+
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
       long timestamp = (long) entity.getProperty("timestamp");
 
       Comment comment = new Comment(id, body, timestamp);
       comments.add(comment);
+
+      addedSoFar++;
     }
 
     Gson gson = new Gson();
