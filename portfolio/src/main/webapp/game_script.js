@@ -12,8 +12,8 @@ var gameArea = {
       gameArea.key = e.keyCode;
     });
     window.addEventListener('keyup', function(e) {
-      const keycode_M = 77;
-      if (gameArea.key == keycode_M) {
+      const keycodeM = 77;
+      if (gameArea.key == keycodeM) {
         gameArea.mouseControl = !gameArea.mouseControl;
       }
       gameArea.key = false;
