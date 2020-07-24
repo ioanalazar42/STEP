@@ -45,7 +45,6 @@ public class ListCommentsServlet extends HttpServlet {
 
     List<Comment> comments = new ArrayList<>();
 
-    int addedSoFar = 0;
     for (Entity entity : results.asIterable()) {
       if (comments.size() == commentLimit) {
           break;
@@ -57,8 +56,6 @@ public class ListCommentsServlet extends HttpServlet {
 
       Comment comment = new Comment(id, body, timestamp);
       comments.add(comment);
-
-      addedSoFar++;
     }
 
     Gson gson = new Gson();
