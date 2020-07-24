@@ -14,6 +14,7 @@
 
 /* eslint-disable no-unused-vars */
 /**
+
  * Adds a random fact to the page.
  */
 function addRandomFact() {
@@ -32,9 +33,12 @@ function addRandomFact() {
   factContainer.innerText = fact;
 } /* eslint-enable no-unused-vars */
 
-
 /* eslint-disable no-unused-vars */
-/* Fetches data from the server and adds them to DOM */
+
+/**
+ * Fetch data from the server and adds them to DOM
+ * @return {void}
+ */
 async function getComments() {
   const response = await fetch('/list-comments');
   const comments = await response.json();
@@ -46,7 +50,11 @@ async function getComments() {
   });
 } /* eslint-enable no-unused-vars */
 
-/* Creates a <li> element containing the body of the comment */
+/**
+ * Creates a <li> element containing the body of the comment
+ * @param {Promise} comment
+ * @return {Element} liElement
+ */
 function createListElement(comment) {
   const liElement = document.createElement('li');
   liElement.innerText = comment.body;

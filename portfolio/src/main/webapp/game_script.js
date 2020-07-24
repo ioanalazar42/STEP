@@ -36,8 +36,12 @@ var gameArea = {
   },
 }; // gameArea
 
-/* Returns true if the current frame number
-   corresponds with the given interval */
+/**
+ * Check if the current frame number corresponds
+   with the given interval
+ * @param {Number} givenInterval
+ * @return {Boolean} truth value of the query
+ */
 function everyInterval(givenInterval) {
   return gameArea.frameNo % givenInterval == 0;
 }
@@ -59,6 +63,11 @@ const keyActions = {
 };
 
 /* eslint-disable no-unused-vars */
+
+/**
+ * Set up the game
+ * @return {void}
+ */
 function startGame() {
   player = new BoxComponent(30, 30, 'red', 10, window.innerHeight/2);
   score = new TextComponent('SCORE: 0', '30px Consolas', 'black', window.innerWidth - 200, 30);
@@ -79,9 +88,17 @@ function startGame() {
   gameArea.start();
 } /* eslint-enable no-unused-vars */
 
-/* Construct a text component with specific text
+/**
+ * Construct a text component with given text,
    font, color and coordinates where it is
-   placed in the canvas */
+   placed in the canvas
+ * @param {String} text
+ * @param {String} font
+ * @param {String} color
+ * @param {Number} x
+ * @param {Number} y
+ * @return {void}
+ */
 function TextComponent(text, font, color, x, y) {
   this.text = text;
   this.x = x;
@@ -94,9 +111,17 @@ function TextComponent(text, font, color, x, y) {
   };
 } // TextComponent
 
-/* Construct a box component with specific width
+/**
+ * Construct a box component with given width,
    height, color and coordinates where it is
-   placed in the canvas */
+   placed in the canvas
+ * @param {Number} width
+ * @param {Number} height
+ * @param {String} color
+ * @param {Number} x
+ * @param {Number} y
+ * @return {void}
+ */
 function BoxComponent(width, height, color, x, y) {
   this.width = width;
   this.height = height;
@@ -153,6 +178,10 @@ function BoxComponent(width, height, color, x, y) {
   }; // crashWith
 } // BoxComponent
 
+/**
+ * Update game area
+ * @return {void}
+ */
 function updateGameArea() {
   if (crashOccurs()) {
     gameArea.stop();
@@ -176,8 +205,12 @@ function updateGameArea() {
   player.update();
 } // updateGameArea
 
-/* Returns a value of an enum-like structure
-   depending on the code of 'key' */
+/**
+ * Returns a value of an enum-like structure
+   depending on the code of 'key'
+ * @param {Number} key
+ * @return {keyActions} enum value
+ */
 function getKey(key) {
   if (key == 38 || key == 87) {
     return keyActions.UP;
@@ -188,7 +221,9 @@ function getKey(key) {
   }
 } // getKey
 
-/* Checks if player crashes with any of the obstacles */
+/**
+ * @return {Boolean} whether player crashed into obstacle
+ */
 function crashOccurs() {
   for (i = 0; i < obstacles.length; i += 1) {
     if (player.crashWith(obstacles[i])) {
@@ -198,6 +233,10 @@ function crashOccurs() {
   return false;
 } // crashOccurs
 
+/**
+ * Add new obstacle to canvas
+ * @return {void}
+ */
 function addObstacle() {
   let xObstacle;
 
@@ -218,6 +257,10 @@ function addObstacle() {
   }
 } // addObstacle
 
+/**
+ * Update the obstacles' postitions
+ * @return {void}
+ */
 function updateObstacles() {
   for (i = 0; i < obstacles.length; i += 1) {
     obstacles[i].x += -5;
