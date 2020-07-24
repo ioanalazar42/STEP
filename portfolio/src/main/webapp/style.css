@@ -9,11 +9,6 @@
 }
 
 .image {
-  width: 300px;
-  height: auto;
-}
-
-.image {
   width: 200px;
   height: auto;
 }
@@ -30,10 +25,6 @@
   max-width: 200px;
 }
 
-.imageBox:hover .edited {
-  display: block;
-}
-
 .imgContainer {
   position: relative;
   float: left;
@@ -47,5 +38,9 @@
 }
 
 .imgContainer:hover .edited {
+  display: block;
+}
+
+.imageBox:hover .edited {
   display: block;
 }
