@@ -25,22 +25,18 @@
   max-width: 200px;
 }
 
-.imgContainer {
+.img-container {
   position: relative;
   float: left;
 }
 
-.imgContainer .edited {
+.img-container .edited {
   position: absolute;
   left: 0;
   top: 0;
   display: none;
 }
 
-.imgContainer:hover .edited {
-  display: block;
-}
-
-.imageBox:hover .edited {
+.img-container:hover .edited {
   display: block;
 }
