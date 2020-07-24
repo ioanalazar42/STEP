@@ -70,7 +70,8 @@ const keyActions = {
  */
 function startGame() {
   player = new BoxComponent(30, 30, 'red', 10, window.innerHeight/2);
-  score = new TextComponent('SCORE: 0', '30px Consolas', 'black', window.innerWidth - 200, 30);
+  score = new TextComponent('SCORE: 0', '30px Consolas', 'black',
+      window.innerWidth - 200, 30);
 
   // unicodes for down and up arrows
   const upArrSymbol = '\u2B06';
@@ -81,9 +82,12 @@ function startGame() {
   const instrMouseTxt = 'm > on/off mouse control';
 
   // create a text component for each instruction box
-  instrUp = new TextComponent(instrUpTxt, '20px Consolas', 'black', window.innerWidth - 250, window.innerHeight - 90);
-  instrDown = new TextComponent(instrDownTxt, '20px Consolas', 'black', window.innerWidth - 250, window.innerHeight - 65);
-  instrMouse = new TextComponent(instrMouseTxt, '20px Consolas', 'black', window.innerWidth - 250, window.innerHeight - 40);
+  instrUp = new TextComponent(instrUpTxt, '20px Consolas', 'black',
+      window.innerWidth - 250, window.innerHeight - 90);
+  instrDown = new TextComponent(instrDownTxt, '20px Consolas', 'black',
+      window.innerWidth - 250, window.innerHeight - 65);
+  instrMouse = new TextComponent(instrMouseTxt, '20px Consolas', 'black',
+      window.innerWidth - 250, window.innerHeight - 40);
 
   gameArea.start();
 } /* eslint-enable no-unused-vars */
@@ -246,14 +250,16 @@ function addObstacle() {
 
     minHeight = gameArea.canvas.height/6;
     maxHeight = gameArea.canvas.height/2;
-    height = Math.floor(Math.random() * (maxHeight - minHeight + 1) + minHeight);
+    height = Math.floor(Math.random() *
+      (maxHeight - minHeight + 1) + minHeight);
 
     minGap = 80;
     maxGap = gameArea.canvas.height/3;
     gap = Math.floor(Math.random() * (maxGap - minGap + 1) + minGap);
 
     obstacles.push(new BoxComponent(50, height, 'green', xObstacle, 0));
-    obstacles.push(new BoxComponent(50, xObstacle - height - gap, 'green', xObstacle, height + gap));
+    obstacles.push(new BoxComponent(50, xObstacle - height - gap,
+        'green', xObstacle, height + gap));
   }
 } // addObstacle
 
