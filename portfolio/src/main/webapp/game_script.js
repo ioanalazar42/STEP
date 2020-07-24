@@ -58,6 +58,7 @@ const keyActions = {
   OTHER: 'other',
 };
 
+/* eslint-disable no-unused-vars */
 function startGame() {
   player = new BoxComponent(30, 30, 'red', 10, window.innerHeight/2);
   score = new TextComponent('SCORE: 0', '30px Consolas', 'black', window.innerWidth - 200, 30);
@@ -76,7 +77,7 @@ function startGame() {
   instrMouse = new TextComponent(instrMouseTxt, '20px Consolas', 'black', window.innerWidth - 250, window.innerHeight - 40);
 
   gameArea.start();
-}
+} /* eslint-enable no-unused-vars */
 
 /* Construct a text component with specific text
    font, color and coordinates where it is
