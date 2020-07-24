@@ -1,0 +1,9 @@
+#!/bin/bash
+echo -e "\n######################################\n\n RUN JS LINTERS \n"
+find . -type f -name \*.js -exec bash -c 'FN="{}"; npx eslint "{}"' \;
+#
+echo -e "\n######################################\n\n RUN HTML LINTERS \n"
+find . -type f -name \*.html -exec bash -c 'FN="{}"; npx htmllint "{}"' \;
+#
+echo -e "\n######################################\n\n RUN CSS LINTERS \n"
+find . -type f -name \*.css -exec bash -c 'FN="{}"; npx stylelint "{}"' \;
