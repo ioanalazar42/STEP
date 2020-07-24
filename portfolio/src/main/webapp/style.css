@@ -9,13 +9,13 @@
 }
 
 .image {
-    width: 300px;
-    height: auto;
+  width: 300px;
+  height: auto;
 }
 
 .image {
-    width: 200px;
-    height: auto;
+  width: 200px;
+  height: auto;
 }
 
 .image-gallery {
@@ -31,7 +31,7 @@
 }
 
 .imageBox:hover .edited {
-    display: block;
+  display: block;
 }
 
 .imgContainer {

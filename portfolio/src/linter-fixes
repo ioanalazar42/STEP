@@ -1,0 +1,11 @@
+#!/bin/bash
+echo -e "\n######################################\n\n APPLY JS FIXES \n"
+find . -type f -name \*.js -exec bash -c 'FN="{}"; npx eslint --fix "{}"' \;
+#
+echo -e "\n######################################\n\n APPLY HTML FIXES \n"
+find . -type f -name \*.html -exec bash -c 'FN="{}"; npx htmllint --fix "{}"' \;
+#
+echo -e "\n######################################\n\n APPLY CSS FIXES \n"
+find . -type f -name \*.css -exec bash -c 'FN="{}"; npx stylelint --fix "{}"' \;
+echo -e "\n######################################\n\n APPLY JAVA FIXES \n"
+find . -type f -name \*.java -exec bash -c 'FN="{}"; /usr/lib/jvm/java-1.11.0-openjdk-amd64/bin/java -jar ../../google-java-format-1.8-all-deps.jar -i "{}" ' \;
