@@ -64,8 +64,24 @@ function createCommentElement(comment) {
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
+  deleteBttn.addEventListener('click', () => {
+    deleteComment(comment);
+
+    commentElement.remove();
+  });
 
   commentElement.appendChild(commentBody);
   commentElement.appendChild(deleteBttn);
   return commentElement;
+}
+
+/**
+ * Delete comment through servlet
+ * @param {Promise} comment
+ * @return {void}
+ */
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
 }
