@@ -12,7 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+/* eslint-disable no-unused-vars */
 /**
+
  * Adds a random fact to the page.
  */
 function addRandomFact() {
@@ -29,9 +31,14 @@ function addRandomFact() {
   // Add it to the page.
   const factContainer = document.getElementById('fact-container');
   factContainer.innerText = fact;
-}
+} /* eslint-enable no-unused-vars */
 
-/* Fetches data from the server and adds them to DOM */
+/* eslint-disable no-unused-vars */
+
+/**
+ * Fetch data from the server and adds them to DOM
+ * @return {void}
+ */
 async function getComments() {
   const response = await fetch('/list-comments');
   const comments = await response.json();
@@ -41,9 +48,13 @@ async function getComments() {
   comments.forEach((comment) => {
     commentList.appendChild(createListElement(comment));
   });
-}
+} /* eslint-enable no-unused-vars */
 
-/* Creates a <li> element containing the body of the comment */
+/**
+ * Creates a <li> element containing the body of the comment
+ * @param {Promise} comment
+ * @return {Element} liElement
+ */
 function createListElement(comment) {
   const liElement = document.createElement('li');
   liElement.innerText = comment.body;

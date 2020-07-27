@@ -9,13 +9,8 @@
 }
 
 .image {
-    width: 300px;
-    height: auto;
-}
-
-.image {
-    width: 200px;
-    height: auto;
+  width: 200px;
+  height: auto;
 }
 
 .image-gallery {
@@ -30,22 +25,18 @@
   max-width: 200px;
 }
 
-.imageBox:hover .edited {
-    display: block;
-}
-
-.imgContainer {
+.img-container {
   position: relative;
   float: left;
 }
 
-.imgContainer .edited {
+.img-container .edited {
   position: absolute;
   left: 0;
   top: 0;
   display: none;
 }
 
-.imgContainer:hover .edited {
+.img-container:hover .edited {
   display: block;
 }

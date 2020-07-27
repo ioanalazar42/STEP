@@ -20,11 +20,11 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
-import com.google.sps.data.Comment;
 import com.google.gson.Gson;
+import com.google.sps.data.Comment;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -47,8 +47,8 @@ public class ListCommentsServlet extends HttpServlet {
 
     for (Entity entity : results.asIterable()) {
       if (comments.size() == commentLimit) {
-          break;
-        }
+        break;
+      }
 
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
@@ -63,7 +63,7 @@ public class ListCommentsServlet extends HttpServlet {
     response.setContentType("application/json;");
     response.getWriter().println(gson.toJson(comments));
   }
-  
+
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
     commentLimit = getCommentLimit(request);

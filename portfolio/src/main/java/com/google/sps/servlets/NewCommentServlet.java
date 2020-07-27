@@ -1,4 +1,3 @@
-
 package com.google.sps.servlets;
 
 import com.google.appengine.api.datastore.DatastoreService;
@@ -23,7 +22,7 @@ public class NewCommentServlet extends HttpServlet {
       response.getWriter().println("Please enter a non-empty comment.");
       return;
     }
-    
+
     long timestamp = System.currentTimeMillis();
 
     Entity commentEntity = new Entity("Comment");
