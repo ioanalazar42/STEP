@@ -47,8 +47,8 @@ public class ListCommentsServlet extends HttpServlet {
 
     for (Entity entity : results.asIterable()) {
       if (comments.size() == commentLimit) {
-          break;
-        }
+        break;
+      }
 
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
