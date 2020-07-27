@@ -46,17 +46,42 @@ async function getComments() {
   // Build the comments section
   const commentList = document.getElementById('comments-section');
   comments.forEach((comment) => {
-    commentList.appendChild(createListElement(comment));
+    commentList.appendChild(createCommentElement(comment));
   });
 } /* eslint-enable no-unused-vars */
 
 /**
- * Creates a <li> element containing the body of the comment
+ * Create container for comments wtih delete button
  * @param {Promise} comment
- * @return {Element} liElement
+ * @return {Element} commentElement
  */
-function createListElement(comment) {
-  const liElement = document.createElement('li');
-  liElement.innerText = comment.body;
-  return liElement;
+function createCommentElement(comment) {
+  const commentElement = document.createElement('li');
+  commentElement.className = 'comment';
+
+  const commentBody = document.createElement('span');
+  commentBody.innerText = comment.body;
+
+  const deleteBttn = document.createElement('button');
+  deleteBttn.innerText = 'Delete';
+  deleteBttn.addEventListener('click', () => {
+    deleteComment(comment);
+
+    commentElement.remove();
+  });
+
+  commentElement.appendChild(commentBody);
+  commentElement.appendChild(deleteBttn);
+  return commentElement;
+}
+
+/**
+ * Delete comment through servlet
+ * @param {Promise} comment
+ * @return {void}
+ */
+function deleteComment(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+  fetch('/delete-comment', {method: 'POST', body: params});
 }
