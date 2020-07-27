@@ -40,6 +40,15 @@ function addRandomFact() {
  * @return {void}
  */
 async function getComments() {
+  const loginResponse = await fetch('/login-status');
+  const loginJson = await loginResponse.json();
+
+  if (getLoginStatus(loginJson)) {
+    console.log('User is logged in');
+  } else {
+    console.log('User is not logged in');
+  }
+
   const response = await fetch('/list-comments');
   const comments = await response.json();
 
@@ -49,6 +58,20 @@ async function getComments() {
     commentList.appendChild(createListElement(comment));
   });
 } /* eslint-enable no-unused-vars */
+
+/**
+ * Get login status of user from json
+ * @param {JSON} json
+ * @return {Boolean} login status
+ */
+function getLoginStatus(json) {
+  switch (json.logged) {
+    case 'true':
+      return true;
+    case 'false':
+      return false;
+  }
+}
 
 /**
  * Creates a <li> element containing the body of the comment
