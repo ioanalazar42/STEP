@@ -72,10 +72,12 @@ async function getComments() {
 }
 
 /**
- * Create anchor element with attributes
- * href and some text
- * @param {JSON} json
- * @return {Element} a
+ * Create anchor element with a link that depends on whether
+ * the user is logged in or not:
+ *  - If user is logged in, the link logs the user out
+ *  - If the user logged out, the link prompts the user to log in
+ * @param {JSON} json - an object containing user login status
+ * @return {Element} a - an anchor element with brhaviour described above
  */
 function createAnchorElement(json) {
   const a = document.createElement('a');
