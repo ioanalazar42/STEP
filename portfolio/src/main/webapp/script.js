@@ -106,6 +106,7 @@ function createAnchorElement(json) {
  */
 function createListElement(comment) {
   const liElement = document.createElement('li');
-  liElement.innerText = comment.body;
+  const commentToDisplay = comment.email + ': ' + comment.body;
+  liElement.innerText = commentToDisplay;
   return liElement;
 }
