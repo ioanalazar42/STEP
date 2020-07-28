@@ -18,8 +18,8 @@ public class LoginServlet extends HttpServlet {
 
     boolean loggedIn = userService.isUserLoggedIn();
 
-    String url = loggedIn ?  userService.createLogoutURL("list-comments") : 
-        userService.createLoginURL("list-comments");
+    String url = loggedIn ?  userService.createLogoutURL("/") : 
+        userService.createLoginURL("/");
 
     response.setContentType("application/json;");
     response.getWriter().println(toJson(loggedIn, url));

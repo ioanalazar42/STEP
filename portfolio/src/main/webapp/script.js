@@ -41,11 +41,14 @@ function addRandomFact() {
  */
 function checkLogin() {
   fetch('/login-status').then(response => response.json()).then((loginJson) => {
-    if (!getLoginStatus(loginJson)) {
-      console.log('User not logged in');
+    const url = createAnchorElement(loginJson);
+
+    const content = document.getElementById('content');
+    content.appendChild(url);
+
+    if (!loggedIn(loginJson)) {
       return;
     } else {
-      console.log('User logged in');
       getComments();
     }
   });
@@ -71,13 +74,28 @@ async function getComments() {
  * @param {JSON} json
  * @return {Boolean} login status
  */
-function getLoginStatus(json) {
+function loggedIn(json) {
   switch (json.logged) {
     case 'true':
       return true;
     case 'false':
       return false;
   }
+}
+
+/**
+ * Create anchor element with attributes
+ * href and some text
+ * @param {JSON} json
+ * @return {Element} a
+ */
+function createAnchorElement(json) {
+  var a = document.createElement('a');
+  var link = loggedIn(json) ? document.createTextNode("Logout") : 
+    document.createTextNode("Login to see comments");
+  a.appendChild(link);
+  a.href = json.url; 
+  return a;
 }
 
 /**
