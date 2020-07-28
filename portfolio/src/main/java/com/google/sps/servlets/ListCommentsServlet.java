@@ -22,6 +22,7 @@ import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Query.SortDirection;
 import com.google.gson.Gson;
 import com.google.sps.data.Comment;
+import java.lang.Double;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +54,7 @@ public class ListCommentsServlet extends HttpServlet {
       long id = entity.getKey().getId();
       String body = (String) entity.getProperty("body");
       long timestamp = (long) entity.getProperty("timestamp");
-      float score = (float) entity.getProperty("score");
+      float score = ((Double)entity.getProperty("score")).floatValue();
 
       Comment comment = new Comment(id, body, timestamp, score);
       comments.add(comment);
