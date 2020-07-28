@@ -60,7 +60,8 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const commentBody = document.createElement('span');
-  commentBody.innerText = comment.body;
+  const commentToDisplay = comment.body + '\t\t Score: ' + comment.score;
+  commentBody.innerText = commentToDisplay;
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
