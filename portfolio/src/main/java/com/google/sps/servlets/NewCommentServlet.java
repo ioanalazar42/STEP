@@ -1,5 +1,7 @@
 package com.google.sps.servlets;
 
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
@@ -15,8 +17,15 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String body = request.getParameter("comment-input");
+    UserService userService = UserServiceFactory.getUserService();
+    
+    if (!userService.isUserLoggedIn()) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please login to comment");
+      return;
+    }
 
+    String body = request.getParameter("comment-input");
     if (body.equals("")) {
       response.setContentType("text/html");
       response.getWriter().println("Please enter a non-empty comment.");
