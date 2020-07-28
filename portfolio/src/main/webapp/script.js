@@ -40,7 +40,8 @@ function addRandomFact() {
  * @return {void}
  */
 function checkLogin() {
-  fetch('/login-status').then(response => response.json()).then((loginJson) => {
+  fetch('/login-status').then((response) =>
+    response.json()).then((loginJson) => {
     const url = createAnchorElement(loginJson);
 
     const content = document.getElementById('content');
@@ -90,11 +91,11 @@ function loggedIn(json) {
  * @return {Element} a
  */
 function createAnchorElement(json) {
-  var a = document.createElement('a');
-  var link = loggedIn(json) ? document.createTextNode("Logout") : 
-    document.createTextNode("Login to see comments");
+  const a = document.createElement('a');
+  const link = loggedIn(json) ? document.createTextNode('Logout') :
+    document.createTextNode('Login to see comments');
   a.appendChild(link);
-  a.href = json.url; 
+  a.href = json.url;
   return a;
 }
 
