@@ -41,7 +41,7 @@ public class NewCommentServlet extends HttpServlet {
   }
 
   /* Return sentiment analysis score based on the content of some text */
-  public float sentimentAnalysisScore(String text) {
+  public float sentimentAnalysisScore(String text) throws IOException {
     Document doc =
       Document.newBuilder().setContent(text).setType(Document.Type.PLAIN_TEXT).build();
     LanguageServiceClient languageService = LanguageServiceClient.create();
