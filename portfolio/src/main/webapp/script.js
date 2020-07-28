@@ -34,21 +34,28 @@ function addRandomFact() {
 } /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
+/**
+ * Fetch login status from the server and display
+ * comments section if the user is logged in
+ * @return {void}
+ */
+function checkLogin() {
+  fetch('/login-status').then(response => response.json()).then((loginJson) => {
+    if (!getLoginStatus(loginJson)) {
+      console.log('User not logged in');
+      return;
+    } else {
+      console.log('User logged in');
+      getComments();
+    }
+  });
+} /* eslint-enable no-unused-vars */
 
 /**
- * Fetch data from the server and adds them to DOM
+ * Fetch comments from the server and add them to DOM
  * @return {void}
  */
 async function getComments() {
-  const loginResponse = await fetch('/login-status');
-  const loginJson = await loginResponse.json();
-
-  if (getLoginStatus(loginJson)) {
-    console.log('User is logged in');
-  } else {
-    console.log('User is not logged in');
-  }
-
   const response = await fetch('/list-comments');
   const comments = await response.json();
 
@@ -57,7 +64,7 @@ async function getComments() {
   comments.forEach((comment) => {
     commentList.appendChild(createListElement(comment));
   });
-} /* eslint-enable no-unused-vars */
+}
 
 /**
  * Get login status of user from json

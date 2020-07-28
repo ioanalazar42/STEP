@@ -14,16 +14,33 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginServlet extends HttpServlet {
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String loginStatusJson = "{\"logged\": ";
     UserService userService = UserServiceFactory.getUserService();
 
-    if (userService.isUserLoggedIn()) {
-      loginStatusJson += "\"true\"}";
-    } else {
-      loginStatusJson += "\"false\"}";
-    }
+    boolean loggedIn = userService.isUserLoggedIn();
+
+    String url = loggedIn ?  userService.createLogoutURL("list-comments") : 
+        userService.createLoginURL("list-comments");
 
     response.setContentType("application/json;");
-    response.getWriter().println(loginStatusJson);
+    response.getWriter().println(toJson(loggedIn, url));
+  }
+
+  /* Return json string that specifies if the user is logged in and
+    provides a login/logout url */
+  public String toJson(boolean loggedIn, String url) {
+
+    String json = "{\"logged\": ";
+
+    if (loggedIn) {
+      json += "\"true\"";
+    } else {
+      json += "\"false\"";
+    }
+
+    json += ", ";
+    json += "\"url\": ";
+    json += "\"" + url + "\"}";
+
+    return json;
   }
 }
