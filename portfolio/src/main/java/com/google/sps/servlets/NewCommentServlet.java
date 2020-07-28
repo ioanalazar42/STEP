@@ -24,10 +24,12 @@ public class NewCommentServlet extends HttpServlet {
     }
 
     long timestamp = System.currentTimeMillis();
+    float score = 0;
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("body", body);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("score", score);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
