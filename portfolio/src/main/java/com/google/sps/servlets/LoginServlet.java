@@ -24,7 +24,8 @@ public class LoginServlet extends HttpServlet {
 
     UserStatus userStatus = new UserStatus();
     userStatus.logged = userService.isUserLoggedIn();
-    userStatus.url = userStatus.logged ? userService.createLogoutURL("/") : userService.createLoginURL("/");
+    userStatus.url =
+        userStatus.logged ? userService.createLogoutURL("/") : userService.createLoginURL("/");
 
     Gson gson = new Gson();
 

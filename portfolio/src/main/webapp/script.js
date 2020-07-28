@@ -75,9 +75,9 @@ async function getComments() {
  * Create anchor element with a link that depends on whether
  * the user is logged in or not:
  *  - If user is logged in, the link logs the user out
- *  - If the user logged out, the link prompts the user to log in
+ *  - If the user is logged out, the link prompts the user to log in
  * @param {JSON} json - an object containing user login status
- * @return {Element} a - an anchor element with brhaviour described above
+ * @return {Element} a - an anchor element with behaviour described above
  */
 function createAnchorElement(json) {
   const a = document.createElement('a');
@@ -98,8 +98,7 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const commentBody = document.createElement('span');
-  const commentToDisplay = comment.email + ': ' + comment.body;
-  commentBody.innerText = commentToDisplay;
+  commentBody.innerText = comment.email + ': ' + comment.body;
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
