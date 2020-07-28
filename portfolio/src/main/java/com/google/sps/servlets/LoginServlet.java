@@ -27,9 +27,9 @@ public class LoginServlet extends HttpServlet {
     String json = "{\"logged\": ";
 
     if (loggedIn) {
-      json += "\"true\"";
+      json += "true";
     } else {
-      json += "\"false\"";
+      json += "false";
     }
 
     json += ", ";

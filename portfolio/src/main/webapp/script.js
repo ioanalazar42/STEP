@@ -41,13 +41,14 @@ function addRandomFact() {
  */
 function checkLogin() {
   fetch('/login-status').then((response) =>
-    response.json()).then((loginJson) => {
-    const url = createAnchorElement(loginJson);
+    response.json()).then((json) => {
+    console.log(json);
+    const url = createAnchorElement(json);
 
     const content = document.getElementById('content');
     content.appendChild(url);
 
-    if (!loggedIn(loginJson)) {
+    if (!json.logged) {
       return;
     } else {
       getComments();
@@ -71,20 +72,6 @@ async function getComments() {
 }
 
 /**
- * Get login status of user from json
- * @param {JSON} json
- * @return {Boolean} login status
- */
-function loggedIn(json) {
-  switch (json.logged) {
-    case 'true':
-      return true;
-    case 'false':
-      return false;
-  }
-}
-
-/**
  * Create anchor element with attributes
  * href and some text
  * @param {JSON} json
@@ -92,7 +79,7 @@ function loggedIn(json) {
  */
 function createAnchorElement(json) {
   const a = document.createElement('a');
-  const link = loggedIn(json) ? document.createTextNode('Logout') :
+  const link = json.logged ? document.createTextNode('Logout') :
     document.createTextNode('Login to see comments');
   a.appendChild(link);
   a.href = json.url;
