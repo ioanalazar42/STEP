@@ -100,7 +100,7 @@ function createCommentElement(comment) {
   const commentBody = document.createElement('span');
 
   commentBody.innerText = comment.email + ': ' + comment.body +
-    '\n Score: ' + comment.score;
+    '\n Score: ' + (comment.score).toFixed(1);
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';

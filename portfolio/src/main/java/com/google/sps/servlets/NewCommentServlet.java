@@ -37,7 +37,7 @@ public class NewCommentServlet extends HttpServlet {
 
     long timestamp = System.currentTimeMillis();
     String userEmail = userService.getCurrentUser().getEmail();
-    float score = sentimentAnalysisScore(body);
+    double score = sentimentAnalysisScore(body);
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("body", body);

@@ -54,7 +54,7 @@ public class ListCommentsServlet extends HttpServlet {
       String body = (String) entity.getProperty("body");
       long timestamp = (long) entity.getProperty("timestamp");
       String email = (String) entity.getProperty("email");
-      float score = ((Double) entity.getProperty("score")).floatValue();
+      double score = (double) entity.getProperty("score");
 
       Comment comment = new Comment(id, body, timestamp, email, score);
       comments.add(comment);

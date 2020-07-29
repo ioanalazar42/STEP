@@ -6,9 +6,9 @@ public final class Comment {
   private final String body;
   private final long timestamp;
   private final String email;
-  private final float score;
+  private final double score;
 
-  public Comment(long id, String body, long timestamp, String email, float score) {
+  public Comment(long id, String body, long timestamp, String email, double score) {
     this.id = id;
     this.body = body;
     this.timestamp = timestamp;
