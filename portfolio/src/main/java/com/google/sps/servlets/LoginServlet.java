@@ -16,16 +16,21 @@ public class LoginServlet extends HttpServlet {
   private class UserStatus {
     boolean logged;
     String url;
+
+    public UserStatus(boolean logged, String url) {
+      this.logged = logged;
+      this.url = url;
+    }
   }
 
   @Override
   public void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
     UserService userService = UserServiceFactory.getUserService();
 
-    UserStatus userStatus = new UserStatus();
-    userStatus.logged = userService.isUserLoggedIn();
-    userStatus.url =
-        userStatus.logged ? userService.createLogoutURL("/") : userService.createLoginURL("/");
+    boolean logged = userService.isUserLoggedIn();
+    String url = logged ? userService.createLogoutURL("/") : userService.createLoginURL("/");
+
+    UserStatus userStatus = new UserStatus(logged, url);
 
     Gson gson = new Gson();
 
