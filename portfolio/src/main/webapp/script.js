@@ -34,9 +34,30 @@ function addRandomFact() {
 } /* eslint-enable no-unused-vars */
 
 /* eslint-disable no-unused-vars */
+/**
+ * Fetch login status from the server and display
+ * comments section if the user is logged in
+ * @return {void}
+ */
+function checkLogin() {
+  fetch('/login-status').then((response) =>
+    response.json()).then((json) => {
+    console.log(json);
+    const url = createAnchorElement(json);
+
+    const content = document.getElementById('content');
+    content.appendChild(url);
+
+    if (!json.logged) {
+      return;
+    } else {
+      getComments();
+    }
+  });
+} /* eslint-enable no-unused-vars */
 
 /**
- * Fetch data from the server and adds them to DOM
+ * Fetch comments from the server and add them to DOM
  * @return {void}
  */
 async function getComments() {
@@ -48,7 +69,24 @@ async function getComments() {
   comments.forEach((comment) => {
     commentList.appendChild(createCommentElement(comment));
   });
-} /* eslint-enable no-unused-vars */
+}
+
+/**
+ * Create anchor element with a link that depends on whether
+ * the user is logged in or not:
+ *  - If user is logged in, the link logs the user out
+ *  - If the user is logged out, the link prompts the user to log in
+ * @param {JSON} json - an object containing user login status
+ * @return {Element} a - an anchor element with behaviour described above
+ */
+function createAnchorElement(json) {
+  const a = document.createElement('a');
+  const link = json.logged ? document.createTextNode('Logout') :
+    document.createTextNode('Login to see comments');
+  a.appendChild(link);
+  a.href = json.url;
+  return a;
+}
 
 /**
  * Create container for comments wtih delete button
@@ -60,8 +98,8 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const commentBody = document.createElement('span');
-  const commentToDisplay = comment.body + '\n Score: ' + (comment.score);
-  commentBody.innerText = commentToDisplay;
+
+  commentBody.innerText = comment.email + ': ' + comment.body + '\n Score: ' + comment.score;
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
