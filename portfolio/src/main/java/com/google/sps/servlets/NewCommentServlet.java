@@ -3,6 +3,8 @@ package com.google.sps.servlets;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.users.UserService;
+import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -15,8 +17,15 @@ public class NewCommentServlet extends HttpServlet {
 
   @Override
   public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
-    String body = request.getParameter("comment-input");
+    UserService userService = UserServiceFactory.getUserService();
 
+    if (!userService.isUserLoggedIn()) {
+      response.setContentType("text/html");
+      response.getWriter().println("Please login to comment");
+      return;
+    }
+
+    String body = request.getParameter("comment-input");
     if (body.equals("")) {
       response.setContentType("text/html");
       response.getWriter().println("Please enter a non-empty comment.");
@@ -24,10 +33,12 @@ public class NewCommentServlet extends HttpServlet {
     }
 
     long timestamp = System.currentTimeMillis();
+    String userEmail = userService.getCurrentUser().getEmail();
 
     Entity commentEntity = new Entity("Comment");
     commentEntity.setProperty("body", body);
     commentEntity.setProperty("timestamp", timestamp);
+    commentEntity.setProperty("email", userEmail);
 
     DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
     datastore.put(commentEntity);
