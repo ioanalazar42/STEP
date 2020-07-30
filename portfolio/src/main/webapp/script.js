@@ -89,7 +89,9 @@ function createAnchorElement(json) {
 }
 
 /**
- * Create container for comments wtih delete button
+ * Create container for comments wtih delete button and
+ * analyse button that computes sentiment analysis score
+ * when pressed
  * @param {Promise} comment
  * @return {Element} commentElement
  */
@@ -97,6 +99,7 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
+  const emailBox = document.createElement('span');
   const commentBody = document.createElement('span');
   const scoreMessage = document.createElement('span');
 
@@ -111,22 +114,27 @@ function createCommentElement(comment) {
   const scoreBttn = document.createElement('button');
   scoreBttn.innerText = 'Analyse';
 
+  /* when score button pressed, send comment to servlet which
+   deals with computing sentiment analysis score and sends back the
+   updated comment */
   scoreBttn.addEventListener('click', () => {
-    //const analysedComment = doSentimentAnalysis(comment);
-    doSentimentAnalysis(comment);
-    //const analysedComment = fetch('/sentiment-analysis', {method: 'GET'});
-    //console.log(analysedComment);
-    //updatedComment = fetchUpdatedComment();
-    //scoreMessage.innerText = 'Score: ';
-    scoreMessage.innerText =  'Score: ' + (comment.score).toFixed(1);
+    scoreMessage.innerText = 'Computing score...';
+    fetch('/sentiment-analysis?id=' + comment.id).then((response) =>
+      response.json()).then((comment) => {
+      scoreMessage.innerText = 'Score: ' + (comment.score).toFixed(1);
+    });
   });
 
-  commentBody.innerText = comment.email + ': ' + comment.body;
+  emailBox.innerHTML = comment.email + ': ';
+  emailBox.style.fontWeight = 'bold';
 
+  commentBody.innerText = comment.body;
+
+  commentElement.appendChild(emailBox);
   commentElement.appendChild(commentBody);
-  commentElement.appendChild(scoreMessage);
   commentElement.appendChild(deleteBttn);
   commentElement.appendChild(scoreBttn);
+  commentElement.appendChild(scoreMessage);
   return commentElement;
 }
 
@@ -139,34 +147,4 @@ function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
   fetch('/delete-comment', {method: 'POST', body: params});
-}
-
-/**
- *
- * @param {Promise} comment
- * @return {void}
- */
-function doSentimentAnalysis(comment) {
-  const params = new URLSearchParams();
-  params.append('id', comment.id);
-
-  fetch('/sentiment-analysis', {method: 'POST', body: params});
-  //return updatedComment();
-  //return updatedComment();
-  //const analysedComment = await response.json();
-  //return fetch('/sentiment-analysis', {method: 'GET'}).json();
-  //return analysedComment;
-  //fetch('/sentiment-analysis', {method: 'GET'});
-}
-
-/**
- *
- * @param {Promise} comment
- * @return {void}
- */
-async function updatedComment() {
-  const response = await fetch('/sentiment-analysis');
-  const comment = await response.json();
-  return comment;
-  //console.log(comment);
 }
