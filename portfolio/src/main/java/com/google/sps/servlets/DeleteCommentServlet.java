@@ -9,7 +9,6 @@ import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.users.UserService;
 import com.google.appengine.api.users.UserServiceFactory;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -34,16 +33,11 @@ public class DeleteCommentServlet extends HttpServlet {
       UserService userService = UserServiceFactory.getUserService();
       String currentEmail = userService.getCurrentUser().getEmail();
 
-      response.setContentType("text/html");
-      PrintWriter out = response.getWriter();
-
       if (currentEmail.equals(authorEmail)) {
         datastore.delete(commentEntityKey);
-        out.append("Allowed");
       } else {
-        out.append("Not allowed");
+        response.setStatus(HttpServletResponse.SC_FORBIDDEN);
       }
-      out.close();
     } catch (EntityNotFoundException e) {
       System.out.println("Can't fetch entity");
     }

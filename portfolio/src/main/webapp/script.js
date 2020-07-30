@@ -108,9 +108,9 @@ function createCommentElement(comment) {
     /* when delete button is pressed, send comment to servlet which
     checks whether the person who want to delete the comment is
     the same as the person who wrote the comment */
-    fetch('/delete-comment?id=' + comment.id).then((response) =>
-      response.text()).then((text) => {
-      if (text == 'Allowed') {
+    fetch('/delete-comment?id=' + comment.id).then((response) => {
+      const statusCodeForbidden = 403;
+      if (response.status != statusCodeForbidden) {
         commentElement.remove();
       }
     });
