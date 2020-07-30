@@ -89,7 +89,9 @@ function createAnchorElement(json) {
 }
 
 /**
- * Create container for comments wtih delete button
+ * Create container for comments wtih delete button and
+ * analyse button that computes sentiment analysis score
+ * when pressed
  * @param {Promise} comment
  * @return {Element} commentElement
  */
@@ -97,10 +99,9 @@ function createCommentElement(comment) {
   const commentElement = document.createElement('li');
   commentElement.className = 'comment';
 
+  const emailBox = document.createElement('span');
   const commentBody = document.createElement('span');
-
-  commentBody.innerText = comment.email + ': ' + comment.body +
-    '\n Score: ' + (comment.score).toFixed(1);
+  const scoreMessage = document.createElement('span');
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
@@ -110,8 +111,30 @@ function createCommentElement(comment) {
     commentElement.remove();
   });
 
+  const scoreBttn = document.createElement('button');
+  scoreBttn.innerText = 'Analyse';
+
+  /* when score button pressed, send comment to servlet which
+   deals with computing sentiment analysis score and sends back the
+   updated comment */
+  scoreBttn.addEventListener('click', () => {
+    scoreMessage.innerText = 'Computing score...';
+    fetch('/sentiment-analysis?id=' + comment.id).then((response) =>
+      response.json()).then((comment) => {
+      scoreMessage.innerText = 'Score: ' + (comment.score).toFixed(1);
+    });
+  });
+
+  emailBox.innerHTML = comment.email + ': ';
+  emailBox.style.fontWeight = 'bold';
+
+  commentBody.innerText = comment.body;
+
+  commentElement.appendChild(emailBox);
   commentElement.appendChild(commentBody);
   commentElement.appendChild(deleteBttn);
+  commentElement.appendChild(scoreBttn);
+  commentElement.appendChild(scoreMessage);
   return commentElement;
 }
 
