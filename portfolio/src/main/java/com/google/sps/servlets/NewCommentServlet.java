@@ -34,7 +34,7 @@ public class NewCommentServlet extends HttpServlet {
 
     long timestamp = System.currentTimeMillis();
     String userEmail = userService.getCurrentUser().getEmail();
-    // score will only get computer if user specifically requests it
+    // score will only get computed if user specifically requests it
     float score = 0;
 
     Entity commentEntity = new Entity("Comment");
