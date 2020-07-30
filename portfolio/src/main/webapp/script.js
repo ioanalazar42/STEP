@@ -42,7 +42,6 @@ function addRandomFact() {
 function checkLogin() {
   fetch('/login-status').then((response) =>
     response.json()).then((json) => {
-    console.log(json);
     const url = createAnchorElement(json);
 
     const content = document.getElementById('content');
@@ -106,9 +105,15 @@ function createCommentElement(comment) {
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
   deleteBttn.addEventListener('click', () => {
-    deleteComment(comment);
-
-    commentElement.remove();
+    /* when delete button is pressed, send comment to servlet which
+    checks whether the person who want to delete the comment is
+    the same as the person who wrote the comment */
+    fetch('/delete-comment?id=' + comment.id).then((response) =>
+      response.text()).then((text) => {
+      if (text == 'Allowed') {
+        commentElement.remove();
+      }
+    });
   });
 
   const scoreBttn = document.createElement('button');
@@ -138,13 +143,3 @@ function createCommentElement(comment) {
   return commentElement;
 }
 
-/**
- * Delete comment through servlet
- * @param {Promise} comment
- * @return {void}
- */
-function deleteComment(comment) {
-  const params = new URLSearchParams();
-  params.append('id', comment.id);
-  fetch('/delete-comment', {method: 'POST', body: params});
-}
