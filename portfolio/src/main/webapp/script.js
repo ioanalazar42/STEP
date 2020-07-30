@@ -98,9 +98,7 @@ function createCommentElement(comment) {
   commentElement.className = 'comment';
 
   const commentBody = document.createElement('span');
-
-  commentBody.innerText = comment.email + ': ' + comment.body +
-    '\n Score: ' + comment.score;
+  const scoreMessage = document.createElement('span');
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
@@ -110,8 +108,25 @@ function createCommentElement(comment) {
     commentElement.remove();
   });
 
+  const scoreBttn = document.createElement('button');
+  scoreBttn.innerText = 'Analyse';
+
+  scoreBttn.addEventListener('click', () => {
+    //const analysedComment = doSentimentAnalysis(comment);
+    doSentimentAnalysis(comment);
+    //const analysedComment = fetch('/sentiment-analysis', {method: 'GET'});
+    //console.log(analysedComment);
+    //updatedComment = fetchUpdatedComment();
+    //scoreMessage.innerText = 'Score: ';
+    scoreMessage.innerText =  'Score: ' + (comment.score).toFixed(1);
+  });
+
+  commentBody.innerText = comment.email + ': ' + comment.body;
+
   commentElement.appendChild(commentBody);
+  commentElement.appendChild(scoreMessage);
   commentElement.appendChild(deleteBttn);
+  commentElement.appendChild(scoreBttn);
   return commentElement;
 }
 
@@ -124,4 +139,34 @@ function deleteComment(comment) {
   const params = new URLSearchParams();
   params.append('id', comment.id);
   fetch('/delete-comment', {method: 'POST', body: params});
+}
+
+/**
+ *
+ * @param {Promise} comment
+ * @return {void}
+ */
+function doSentimentAnalysis(comment) {
+  const params = new URLSearchParams();
+  params.append('id', comment.id);
+
+  fetch('/sentiment-analysis', {method: 'POST', body: params});
+  //return updatedComment();
+  //return updatedComment();
+  //const analysedComment = await response.json();
+  //return fetch('/sentiment-analysis', {method: 'GET'}).json();
+  //return analysedComment;
+  //fetch('/sentiment-analysis', {method: 'GET'});
+}
+
+/**
+ *
+ * @param {Promise} comment
+ * @return {void}
+ */
+async function updatedComment() {
+  const response = await fetch('/sentiment-analysis');
+  const comment = await response.json();
+  return comment;
+  //console.log(comment);
 }
