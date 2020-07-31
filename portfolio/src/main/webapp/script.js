@@ -84,7 +84,11 @@ function createAnchorElement(json) {
     document.createTextNode('Login to see comments');
   a.appendChild(link);
   a.href = json.url;
-  return a;
+
+  // wrap anchor in title tag to make it more visible
+  const anchorWrap = document.createElement('h2');
+  anchorWrap.appendChild(a);
+  return anchorWrap;
 }
 
 /**
