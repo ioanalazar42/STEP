@@ -104,6 +104,7 @@ function createCommentElement(comment) {
 
   const deleteBttn = document.createElement('button');
   deleteBttn.innerText = 'Delete';
+  deleteBttn.className = 'btn btn-default';
   deleteBttn.addEventListener('click', () => {
     /* when delete button is pressed, send comment to servlet which
     checks whether the person who want to delete the comment is
@@ -117,7 +118,7 @@ function createCommentElement(comment) {
 
   const scoreBttn = document.createElement('button');
   scoreBttn.innerText = 'Analyse';
-
+  scoreBttn.className = 'btn btn-default';
   /* when score button pressed, send comment to servlet which
    deals with computing sentiment analysis score and sends back the
    updated comment */
