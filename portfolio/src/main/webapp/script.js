@@ -109,8 +109,7 @@ function createCommentElement(comment) {
     checks whether the person who want to delete the comment is
     the same as the person who wrote the comment */
     fetch('/delete-comment?id=' + comment.id).then((response) => {
-      const statusCodeForbidden = 403;
-      if (response.status != statusCodeForbidden) {
+      if (response.ok) {
         commentElement.remove();
       }
     });
