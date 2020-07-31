@@ -14,15 +14,18 @@
 }
 
 .image-gallery {
+  margin-left: auto;
+  margin-right: auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  width: 1000px;
 }
 
 .image-gallery img {
   margin: 10px;
-  max-height: 200px;
-  max-width: 200px;
+  max-height: 400px;
+  max-width: 400px;
 }
 
 .img-container {
