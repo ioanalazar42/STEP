@@ -4,20 +4,18 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="script.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
   </head>
   <body onload="checkLogin()">
-    <div id="nav-bar">
-      <a href="index.html">Home</a>
-      <br>
-      <a href="gallery.html">My life in pictures</a>
-      <br>
-      <a href="photography.html">Passion for photo editing</a>
-      <br>
-      <a href="cat.html">I heard you like cats ;)</a>
-      <br>
-      <a href="game.html">Game</a>
-    </div>
+    <ul class="nav nav-tabs" role="tablist">
+      <li class="active"><a href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery</a></li>
+      <li><a href="photography.html">Photo Editing</a></li>
+      <li><a href="game.html">Game</a></li>
+    </ul>
     <div id="content">
       <h1>Ioana Lazar</h1>
       <p>This is my portfolio.</p>
@@ -40,7 +38,7 @@
         <textarea name="comment-input"></textarea>
         <input type="submit" value="Submit"/>
       </form>
-
+      <br>
       <form action="/list-comments" method="POST">
         <label for="limit">Comments displayed:</label>
         <input type="number" id="limit" name="comment-limit" min="0" max="15" value="5">
