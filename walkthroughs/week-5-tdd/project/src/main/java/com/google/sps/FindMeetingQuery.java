@@ -14,13 +14,13 @@
 
 package com.google.sps;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Set;
 import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
+import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
@@ -46,11 +46,13 @@ public final class FindMeetingQuery {
   /**
    * Get {@code Event}s which have attendees in common with those in the meeting request.
    * Store these events in a list and sort them in ascending order by their start times
+   *
    * @param events A list of {@code Event}s
-   * @param requestAttendees A collection of attendees belonging to the meeting request 
+   * @param requestAttendees A collection of attendees belonging to the meeting request
    * @return A sorted list of {@code Event}s
    */
-  private Collection<Event> eventsThatClashWithRequest(Collection<Event> events, Collection<String> requestAttendees) {
+  private Collection<Event> eventsThatClashWithRequest(
+      Collection<Event> events, Collection<String> requestAttendees) {
  
     /* list of events that we keep */
     List<Event> eventsList = new ArrayList<Event>();
@@ -77,8 +79,9 @@ public final class FindMeetingQuery {
    *    current event starts (only if the difference between them is >= to 
    *    the requested meeting duration.
    *  - update current time by setting it to the end of the current event.
+   *
    * @param events A list of {@code Event}s sorted in ascending order of start time
-   * @param meetingDuration The length of the meeting to schedule 
+   * @param meetingDuration The length of the meeting to schedule
    * @return An array of slots when we can schedule the meeting.
    */
   private Collection<TimeRange> possibleSlots(Collection<Event> events, long meetingDuration) {
@@ -92,7 +95,7 @@ public final class FindMeetingQuery {
 
       if (eventStart - currentSlotStart >= meetingDuration) {
         TimeRange currentSlot = TimeRange.fromStartEnd(currentSlotStart, eventStart, false);
-        possibleSlots.add(currentSlot);      
+        possibleSlots.add(currentSlot);
       }
 
       if (eventEnd > currentSlotStart) {
