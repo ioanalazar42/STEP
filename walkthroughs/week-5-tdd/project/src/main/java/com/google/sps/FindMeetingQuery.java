@@ -44,8 +44,8 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Get {@code Event}s which have attendees in common with those in the meeting request.
-   * Store these events in a list and sort them in ascending order by their start times
+   * Get {@code Event}s which have attendees in common with those in the meeting request.Store
+   * these events in a list and sort them in ascending order by their start times
    *
    * @param events A list of {@code Event}s
    * @param requestAttendees A collection of attendees belonging to the meeting request
@@ -53,7 +53,7 @@ public final class FindMeetingQuery {
    */
   private Collection<Event> eventsThatClashWithRequest(
       Collection<Event> events, Collection<String> requestAttendees) {
- 
+
     /* list of events that we keep */
     List<Event> eventsList = new ArrayList<Event>();
 
@@ -73,12 +73,10 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Get possible slots when meeting can be schedule. Loop through sorted events
-   * and repeatedly:
-   *  - allocate slots between the current time and the time the
-   *    current event starts (only if the difference between them is >= to 
-   *    the requested meeting duration.
-   *  - update current time by setting it to the end of the current event.
+   * Get possible slots when meeting can be schedule. Loop through sorted events and repeatedly:
+   * - allocate slots between the current time and the time the current event starts (only if
+   * the difference between them is >= to  the requested meeting duration.
+   * - update current time by setting it to the end of the current event.
    *
    * @param events A list of {@code Event}s sorted in ascending order of start time
    * @param meetingDuration The length of the meeting to schedule
@@ -86,7 +84,7 @@ public final class FindMeetingQuery {
    */
   private Collection<TimeRange> possibleSlots(Collection<Event> events, long meetingDuration) {
     Collection<TimeRange> possibleSlots = new ArrayList<>();
-    
+
     int currentSlotStart = TimeRange.START_OF_DAY;
 
     for (Event event : events) {
@@ -99,7 +97,8 @@ public final class FindMeetingQuery {
       }
 
       if (eventEnd > currentSlotStart) {
-        currentSlotStart = eventEnd;  // update start of current slot
+        // update start of current slot
+        currentSlotStart = eventEnd;
       }
     } // for
 
