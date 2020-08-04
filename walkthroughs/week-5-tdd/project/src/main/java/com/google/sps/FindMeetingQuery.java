@@ -74,7 +74,7 @@ public final class FindMeetingQuery {
   /**
    * Get possible slots when meeting can be schedule. Loop through sorted events and repeatedly: -
    * allocate slots between the current time and the time the current event starts (only if the
-   * difference between them is >= to  the requested meeting duration. - update current time by
+   * difference between them is >= to the requested meeting duration. - update current time by
    * setting it to the end of the current event.
    *
    * @param events A list of {@code Event}s sorted in ascending order of start time
