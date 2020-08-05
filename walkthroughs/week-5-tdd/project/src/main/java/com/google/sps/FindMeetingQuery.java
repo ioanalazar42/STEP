@@ -23,6 +23,11 @@ import java.util.Set;
 
 public final class FindMeetingQuery {
   public Collection<TimeRange> query(Collection<Event> events, MeetingRequest request) {
+    /* Ensure that duration is positive */
+    if (request.getDuration() < 0) {
+      throw new IllegalArgumentException("Meeting durations can't be negative");
+    }
+
     /* request is longer than a whole day, don't return any slots */
     if (request.getDuration() > TimeRange.WHOLE_DAY.duration()) {
       return Arrays.asList();
