@@ -43,8 +43,8 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Get {@code Event}s which have attendees in common with those in the meeting request. Store these
-   * events in a list and sort them in ascending order by their start times
+   * Get {@code Event}s which have attendees in common with those in the meeting request. Store
+   * these events in a list and sort them in ascending order by their start times
    *
    * @param events A list of {@code Event}s
    * @param requestAttendees A collection of attendees belonging to the meeting request
