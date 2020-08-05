@@ -33,9 +33,9 @@ public final class FindMeetingQuery {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
-    /* Reduce events to only the set of events that have at least one common atendee with
-    the atendees in the meeting request. We don't care about events whose atendees don't
-    overlap with the atendees in the request */
+    /* Reduce events to only the set of events that have at least one common attendee with
+    the attendees in the meeting request. We don't care about events whose attendees don't
+    overlap with the attendees in the request */
     Collection<Event> eventClashes = eventsThatClashWithRequest(events, request.getAttendees());
 
     /* find meeting slots that do not clash with existent events */
@@ -43,7 +43,7 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Get {@code Event}s which have attendees in common with those in the meeting request.Store these
+   * Get {@code Event}s which have attendees in common with those in the meeting request. Store these
    * events in a list and sort them in ascending order by their start times
    *
    * @param events A list of {@code Event}s
