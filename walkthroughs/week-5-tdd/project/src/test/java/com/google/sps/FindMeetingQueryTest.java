@@ -199,7 +199,7 @@ public final class FindMeetingQueryTest {
   public void sameSlotsIfOptionalAttendeeBusyAllDay() {
     // The mandatory attendees have different events and optional attendee
     // has an all-day events. In this case, optional attendee shouldn't be
-    // considered and the same slots should be returned as if he wasn't invited
+    // considered and the same slots should be returned as if they weren't invited
     //
     // Optional: |--------------C--------------|
     // Events  :       |--A--|     |--B--|

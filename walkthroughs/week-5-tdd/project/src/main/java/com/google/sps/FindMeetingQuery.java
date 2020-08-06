@@ -34,7 +34,7 @@ public final class FindMeetingQuery {
       return Arrays.asList();
     }
 
-    /* if there are no events or request has no attendees, meeting can be scheduled anytime */
+    /* if there are no other events, meeting can be scheduled anytime */
     if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
@@ -51,7 +51,7 @@ public final class FindMeetingQuery {
     Collection<TimeRange> slotsForOptional =
         possibleSlots(eventClashesOptional, request.getDuration());
 
-    /* if there are no mandatory attendees, check is there are any slots for optional attendees:
+    /* if there are no mandatory attendees, check if there are any slots for optional attendees:
     - if there are not -> mark the whole day as available
     - if there are -> return those slots*/
     if (request.getAttendees().isEmpty()) {
