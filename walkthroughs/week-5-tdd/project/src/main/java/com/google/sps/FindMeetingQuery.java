@@ -40,19 +40,22 @@ public final class FindMeetingQuery {
     }
 
     /* we don't care about events whose attendees are not also mandatory/optional attendees in the meeting */
-    Collection<Event> eventClashesMandatory = eventsThatClashWithRequest(events, request.getAttendees());
-    Collection<Event> eventClashesOptional = eventsThatClashWithRequest(events, request.getOptionalAttendees());
+    Collection<Event> eventClashesMandatory =
+        eventsThatClashWithRequest(events, request.getAttendees());
+    Collection<Event> eventClashesOptional =
+        eventsThatClashWithRequest(events, request.getOptionalAttendees());
 
     /* get possible slots for the meeting for both madatory and optional attendees */
-    Collection<TimeRange> slotsForMandatory = possibleSlots(eventClashesMandatory, request.getDuration());
-    Collection<TimeRange> slotsForOptional = possibleSlots(eventClashesOptional, request.getDuration());
+    Collection<TimeRange> slotsForMandatory =
+        possibleSlots(eventClashesMandatory, request.getDuration());
+    Collection<TimeRange> slotsForOptional =
+        possibleSlots(eventClashesOptional, request.getDuration());
 
     /* if there are no mandatory attendees, check is there are any slots for optional attendees:
     - if there are not -> mark the whole day as available
     - if there are -> return those slots*/
     if (request.getAttendees().isEmpty()) {
-      return (slotsForOptional.isEmpty()) ? Arrays.asList(TimeRange.WHOLE_DAY) 
-        : slotsForOptional;
+      return (slotsForOptional.isEmpty()) ? Arrays.asList(TimeRange.WHOLE_DAY) : slotsForOptional;
     }
 
     /* if there are no possible slots for mandatory attendees, we can't schedule meeting */
@@ -144,15 +147,18 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Find the intersection of two collections of slots. The intersection between two individual slots
-   * is the slot that is contained within the other one. If none of the two slots is contained
+   * Find the intersection of two collections of slots. The intersection between two individual
+   * slots is the slot that is contained within the other one. If none of the two slots is contained
    * within the other one, then their intersection is empty.
    *
-   * @param mandatory A collection of {@code TimeRange}s that represents meeting slots for mandatory attendees
-   * @param optional A collection of {@code TimeRange}s that represents meeting slots for optional attendees
+   * @param mandatory A collection of {@code TimeRange}s that represents meeting slots for mandatory
+   *     attendees
+   * @param optional A collection of {@code TimeRange}s that represents meeting slots for optional
+   *     attendees
    * @return The intersection of these collections as specified above.
    */
-  public Collection<TimeRange> intersection(Collection<TimeRange> mandatory, Collection<TimeRange> optional) {
+  public Collection<TimeRange> intersection(
+      Collection<TimeRange> mandatory, Collection<TimeRange> optional) {
     Iterator<TimeRange> itMandatory = mandatory.iterator();
     Iterator<TimeRange> itOptional = optional.iterator();
 
@@ -168,7 +174,7 @@ public final class FindMeetingQuery {
       /* if one slot completely contains the other, keep the smaller slot */
       if (currentMandatory.contains(currentOptional)) {
         intersection.add(currentOptional);
-      } else if(currentOptional.contains(currentMandatory)) {
+      } else if (currentOptional.contains(currentMandatory)) {
         intersection.add(currentMandatory);
       }
 
@@ -185,7 +191,7 @@ public final class FindMeetingQuery {
     /* in case there are any remaining last slots, check again which one we keep (if any) */
     if (currentMandatory.contains(currentOptional)) {
       intersection.add(currentOptional);
-    } else if(currentOptional.contains(currentMandatory)) {
+    } else if (currentOptional.contains(currentMandatory)) {
       intersection.add(currentMandatory);
     }
 
