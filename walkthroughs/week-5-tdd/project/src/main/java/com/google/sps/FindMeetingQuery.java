@@ -69,12 +69,12 @@ public final class FindMeetingQuery {
       return slotsForMandatory;
     }
 
-    /* compute the intersection between the two sets of slots */
-    Collection<TimeRange> intersection = intersection(slotsForOptional, slotsForMandatory);
-    if (intersection.isEmpty()) {
+    /* compute the slots that accommodate both optional and mandatory attendees */
+    Collection<TimeRange> overallAvailableSlots = overallAvailableSlots(slotsForOptional, slotsForMandatory, request.getDuration());
+    if (overallAvailableSlots.isEmpty()) {
       return slotsForMandatory;
     } else {
-      return intersection;
+      return overallAvailableSlots;
     }
   }
 
@@ -147,35 +147,36 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Find the intersection of two collections of slots. The intersection between two individual
-   * slots is the slot that is contained within the other one. If none of the two slots is contained
-   * within the other one, then their intersection is empty.
+   * Given two collections of slots, get the set of overall available slots.
+   * Get all slot overlaps between the two collections. The overlap between two slots
+   * is their intersection. We have to make sure all overlaps are greater than the 
+   * meeting duration.
    *
    * @param mandatory A collection of {@code TimeRange}s that represents meeting slots for mandatory
    *     attendees
    * @param optional A collection of {@code TimeRange}s that represents meeting slots for optional
    *     attendees
-   * @return The intersection of these collections as specified above.
+   * @return Slots available to both optional and mandatory attendees
    */
-  public Collection<TimeRange> intersection(
-      Collection<TimeRange> mandatory, Collection<TimeRange> optional) {
+  public Collection<TimeRange> overallAvailableSlots(
+      Collection<TimeRange> mandatory, Collection<TimeRange> optional, long duration) {
     Iterator<TimeRange> itMandatory = mandatory.iterator();
     Iterator<TimeRange> itOptional = optional.iterator();
 
     TimeRange currentMandatory = itMandatory.next();
     TimeRange currentOptional = itOptional.next();
 
-    List<TimeRange> intersection = new ArrayList<TimeRange>();
+    List<TimeRange> overlaps = new ArrayList<TimeRange>();
 
     /* it is guaranteed that one of the slot collections will reach its final slot and
     then stay there until the other collection catches up */
     while (itMandatory.hasNext() || itOptional.hasNext()) {
 
-      /* if one slot completely contains the other, keep the smaller slot */
-      if (currentMandatory.contains(currentOptional)) {
-        intersection.add(currentOptional);
-      } else if (currentOptional.contains(currentMandatory)) {
-        intersection.add(currentMandatory);
+      /* find overlap between current slots */
+      TimeRange overlap = getOverlap(currentMandatory, currentOptional, duration);
+      /* if there is no overlap or the overlap is not big enough, returns null */
+      if (overlap != null) {
+        overlaps.add(overlap);
       }
 
       /* point to whichever slot comes earlier (this is why it is guaranteed that
@@ -189,12 +190,37 @@ public final class FindMeetingQuery {
     }
 
     /* in case there are any remaining last slots, check again which one we keep (if any) */
-    if (currentMandatory.contains(currentOptional)) {
-      intersection.add(currentOptional);
-    } else if (currentOptional.contains(currentMandatory)) {
-      intersection.add(currentMandatory);
+    TimeRange overlap = getOverlap(currentMandatory, currentOptional, duration);
+    if (overlap != null) {
+      overlaps.add(overlap);
     }
 
-    return intersection;
+    return overlaps;
+  }
+
+  /**
+   * Find overlap between two slots that is bigger than duration. If no such overlap exists
+   * return null.
+   *
+   * @param slot1 a {@code TimeRange} representing first slot
+   * @param slot2 a {@code TimeRange} representing second slot
+   * @return The overlap of the slots (if it exists and is larger than duration)
+   */
+  public TimeRange getOverlap(TimeRange slot1, TimeRange slot2, long duration) {
+    int start1 = slot1.start();
+    int end1 = slot1.end();
+
+    int start2 = slot2.start();
+    int end2 = slot2.end();
+
+    /* get latest start and earliest end */
+    int latestStart = (start1 > start2) ? start1 : start2;
+    int earliestEnd = (end1 < end2) ? end1 : end2;
+
+    if (earliestEnd - latestStart >= duration) {
+      return TimeRange.fromStartEnd(latestStart, earliestEnd, false);
+    } else {
+      return null;
+    }
   }
 }
