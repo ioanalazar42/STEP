@@ -71,7 +71,7 @@ public final class FindMeetingQuery {
 
     /* compute the slots that accommodate both optional and mandatory attendees */
     Collection<TimeRange> overallAvailableSlots =
-        overallAvailableSlots(slotsForOptional, slotsForMandatory, request.getDuration());
+        overallAvailableSlots(slotsForMandatory, slotsForOptional, request.getDuration());
     if (overallAvailableSlots.isEmpty()) {
       return slotsForMandatory;
     } else {
