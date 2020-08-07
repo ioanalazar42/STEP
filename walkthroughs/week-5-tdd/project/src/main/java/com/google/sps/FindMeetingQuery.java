@@ -70,7 +70,8 @@ public final class FindMeetingQuery {
     }
 
     /* compute the slots that accommodate both optional and mandatory attendees */
-    Collection<TimeRange> overallAvailableSlots = overallAvailableSlots(slotsForOptional, slotsForMandatory, request.getDuration());
+    Collection<TimeRange> overallAvailableSlots =
+        overallAvailableSlots(slotsForOptional, slotsForMandatory, request.getDuration());
     if (overallAvailableSlots.isEmpty()) {
       return slotsForMandatory;
     } else {
@@ -147,10 +148,9 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Given two collections of slots, get the set of overall available slots.
-   * Get all slot overlaps between the two collections. The overlap between two slots
-   * is their intersection. We have to make sure all overlaps are greater than the 
-   * meeting duration.
+   * Given two collections of slots, get the set of overall available slots. Get all slot overlaps
+   * between the two collections. The overlap between two slots is their intersection. We have to
+   * make sure all overlaps are greater than the meeting duration.
    *
    * @param mandatory A collection of {@code TimeRange}s that represents meeting slots for mandatory
    *     attendees
@@ -199,8 +199,8 @@ public final class FindMeetingQuery {
   }
 
   /**
-   * Find overlap between two slots that is bigger than duration. If no such overlap exists
-   * return null.
+   * Find overlap between two slots that is bigger than duration. If no such overlap exists return
+   * null.
    *
    * @param slot1 a {@code TimeRange} representing first slot
    * @param slot2 a {@code TimeRange} representing second slot
