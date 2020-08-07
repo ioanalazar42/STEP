@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -33,18 +34,49 @@ public final class FindMeetingQuery {
       return Arrays.asList();
     }
 
-    /* if there are no events or request has no attendees, meeting can be scheduled anytime */
-    if (events.isEmpty() || request.getAttendees().isEmpty()) {
+    /* if there are no other events, meeting can be scheduled anytime */
+    if (events.isEmpty()) {
       return Arrays.asList(TimeRange.WHOLE_DAY);
     }
 
-    /* Reduce events to only the set of events that have at least one common attendee with
-    the attendees in the meeting request. We don't care about events whose attendees don't
-    overlap with the attendees in the request */
-    Collection<Event> eventClashes = eventsThatClashWithRequest(events, request.getAttendees());
+    /* we don't care about events whose attendees are not also mandatory/optional attendees in the meeting */
+    Collection<Event> eventClashesMandatory =
+        eventsThatClashWithRequest(events, request.getAttendees());
+    Collection<Event> eventClashesOptional =
+        eventsThatClashWithRequest(events, request.getOptionalAttendees());
 
-    /* find meeting slots that do not clash with existent events */
-    return possibleSlots(eventClashes, request.getDuration());
+    /* get possible slots for the meeting for both madatory and optional attendees */
+    Collection<TimeRange> slotsForMandatory =
+        possibleSlots(eventClashesMandatory, request.getDuration());
+    Collection<TimeRange> slotsForOptional =
+        possibleSlots(eventClashesOptional, request.getDuration());
+
+    /* if there are no mandatory attendees, check if there are any slots for optional attendees:
+    - if there are not -> mark the whole day as available
+    - if there are -> return those slots*/
+    if (request.getAttendees().isEmpty()) {
+      return (slotsForOptional.isEmpty()) ? Arrays.asList(TimeRange.WHOLE_DAY) : slotsForOptional;
+    }
+
+    /* if there are no possible slots for mandatory attendees, we can't schedule meeting */
+    if (slotsForMandatory.isEmpty()) {
+      return Arrays.asList();
+    }
+
+    /* if there are no optional attendees or if there are no sltos possible for optional
+    attendees, return slots possible for mandatory attendees */
+    if (request.getOptionalAttendees().isEmpty() || slotsForOptional.isEmpty()) {
+      return slotsForMandatory;
+    }
+
+    /* compute the slots that accommodate both optional and mandatory attendees */
+    Collection<TimeRange> overallAvailableSlots =
+        overallAvailableSlots(slotsForMandatory, slotsForOptional, request.getDuration());
+    if (overallAvailableSlots.isEmpty()) {
+      return slotsForMandatory;
+    } else {
+      return overallAvailableSlots;
+    }
   }
 
   /**
@@ -113,5 +145,82 @@ public final class FindMeetingQuery {
     }
 
     return possibleSlots;
+  }
+
+  /**
+   * Given two collections of slots, get the set of overall available slots. Get all slot overlaps
+   * between the two collections. The overlap between two slots is their intersection. We have to
+   * make sure all overlaps are greater than the meeting duration.
+   *
+   * @param mandatory A collection of {@code TimeRange}s that represents meeting slots for mandatory
+   *     attendees
+   * @param optional A collection of {@code TimeRange}s that represents meeting slots for optional
+   *     attendees
+   * @return Slots available to both optional and mandatory attendees
+   */
+  public Collection<TimeRange> overallAvailableSlots(
+      Collection<TimeRange> mandatory, Collection<TimeRange> optional, long duration) {
+    Iterator<TimeRange> itMandatory = mandatory.iterator();
+    Iterator<TimeRange> itOptional = optional.iterator();
+
+    TimeRange currentMandatory = itMandatory.next();
+    TimeRange currentOptional = itOptional.next();
+
+    List<TimeRange> overlaps = new ArrayList<TimeRange>();
+
+    /* it is guaranteed that one of the slot collections will reach its final slot and
+    then stay there until the other collection catches up */
+    while (itMandatory.hasNext() || itOptional.hasNext()) {
+
+      /* find overlap between current slots */
+      TimeRange overlap = getOverlap(currentMandatory, currentOptional, duration);
+      /* if there is no overlap or the overlap is not big enough, returns null */
+      if (overlap != null) {
+        overlaps.add(overlap);
+      }
+
+      /* point to whichever slot comes earlier (this is why it is guaranteed that
+      once one collection reaches its end slot, getting the next slot
+      will not be attempted until the other slot collection catches up to it */
+      if (currentMandatory.end() > currentOptional.end()) {
+        currentOptional = itOptional.next();
+      } else {
+        currentMandatory = itMandatory.next();
+      }
+    }
+
+    /* in case there are any remaining last slots, check again which one we keep (if any) */
+    TimeRange overlap = getOverlap(currentMandatory, currentOptional, duration);
+    if (overlap != null) {
+      overlaps.add(overlap);
+    }
+
+    return overlaps;
+  }
+
+  /**
+   * Find overlap between two slots that is bigger than duration. If no such overlap exists return
+   * null.
+   *
+   * @param slot1 a {@code TimeRange} representing first slot
+   * @param slot2 a {@code TimeRange} representing second slot
+   * @return The overlap of the slots (if it exists and is larger than duration)
+   */
+  public TimeRange getOverlap(TimeRange slot1, TimeRange slot2, long duration) {
+    int start1 = slot1.start();
+    int end1 = slot1.end();
+
+    int start2 = slot2.start();
+    int end2 = slot2.end();
+
+    /* get latest start and earliest end */
+    int latestStart = (start1 > start2) ? start1 : start2;
+    int earliestEnd = (end1 < end2) ? end1 : end2;
+
+    if (earliestEnd - latestStart >= duration) {
+      return TimeRange.fromStartEnd(latestStart, earliestEnd, false);
+    } else {
+      return null;
+    }
   }
 }
